@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EventManagerTest < Minitest::Test
+class EventManagerTest < Minitest::Test # :nodoc:
   def test_can_bind_events
     event_manager = Remacs::EventManager.new
     assert event_manager.respond_to?(:bind)
