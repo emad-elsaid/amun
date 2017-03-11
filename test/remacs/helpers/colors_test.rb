@@ -1,25 +1,19 @@
 require 'test_helper'
 require 'remacs/helpers/colors'
 
-module Curses
+module Curses # :nodoc:
   def self.color_pairs; 10 end
   def self.init_pair(i, f, b); true end
   def self.color_pair(i); true end
 end
 
-module Remacs
-  module Helpers
-    module Colors
-      module_function
+module Remacs::Helpers::Colors # :nodoc:
+  module_function
 
-      def clear
-        COLORS.clear
-      end
-    end
-  end
+  def clear; COLORS.clear; end
 end
 
-class ColorsTest < Minitest::Test
+class ColorsTest < Minitest::Test # :nodoc:
   def test_cant_register_color_more_than_max
     colors = Remacs::Helpers::Colors
     colors.clear

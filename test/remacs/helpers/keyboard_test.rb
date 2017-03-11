@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'remacs/helpers/keyboard'
 
-class KeyboardTest < Minitest::Test
+class KeyboardTest < Minitest::Test # :nodoc:
   def test_returns_same_character_for_printables
     assert_equal Remacs::Helpers::Keyboard.key2event('q'), 'q'
   end
