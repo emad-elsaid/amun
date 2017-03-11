@@ -4,4 +4,4 @@ $LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
 require 'remacs'
 
-Remacs::App.instance
+Remacs::Application.instance.run
