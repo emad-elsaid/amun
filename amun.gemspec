@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'remacs/version'
+require 'amun/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "remacs"
-  spec.version       = Remacs::VERSION
+  spec.name          = "amun"
+  spec.version       = Amun::VERSION
   spec.authors       = ["Emad Elsaid"]
   spec.email         = ["blazeeboy@gmail.com"]
 
   spec.summary       = "Emacs like editor, with Ruby core instead of ELisp"
   spec.description   = "A CLI editor built to have an Emacs similar development environment, with ruby in the heart of it instead of Elisp, that will make developing plugins and extensions faster and more enjoyable, this editor is kept to the minimum, anything that could be written as an pluging will be found as a plugin."
-  spec.homepage      = "http://www.github.com/blazeeboy/remacs"
+  spec.homepage      = "http://www.github.com/blazeeboy/amun"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

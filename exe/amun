@@ -2,6 +2,6 @@
 
 $LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
-require 'remacs'
+require 'amun'
 
-Remacs::Application.instance.run
+Amun::Application.instance.run

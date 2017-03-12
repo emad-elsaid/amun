@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'remacs/helpers/colors'
+require 'amun/helpers/colors'
 
 module Curses # :nodoc:
   def self.color_pairs; 10 end
@@ -7,7 +7,7 @@ module Curses # :nodoc:
   def self.color_pair(i); true end
 end
 
-module Remacs::Helpers::Colors # :nodoc:
+module Amun::Helpers::Colors # :nodoc:
   module_function
 
   def clear; COLORS.clear; end
@@ -15,7 +15,7 @@ end
 
 class ColorsTest < Minitest::Test # :nodoc:
   def test_cant_register_color_more_than_max
-    colors = Remacs::Helpers::Colors
+    colors = Amun::Helpers::Colors
     colors.clear
     10.times { |i| colors.register("window_title_#{i}", 16, 18) }
     refute true
@@ -24,7 +24,7 @@ class ColorsTest < Minitest::Test # :nodoc:
   end
 
   def test_register_color_when_pairs_are_available
-    colors = Remacs::Helpers::Colors
+    colors = Amun::Helpers::Colors
     colors.clear
     9.times { |i| colors.register("window_title_#{i}", 16, 18) }
     assert true

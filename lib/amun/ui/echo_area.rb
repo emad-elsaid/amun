@@ -1,6 +1,6 @@
 require 'curses'
 
-module Remacs
+module Amun
   module UI
     # a line that is rendered by default at the end on the screen
     # takes one line height and extends to take the whole width of screen

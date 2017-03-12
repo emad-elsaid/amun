@@ -1,6 +1,6 @@
 require 'curses'
 
-module Remacs
+module Amun
   module Helpers
     ##
     # Colors is responsible for registering new colors pairs (foreground and background)

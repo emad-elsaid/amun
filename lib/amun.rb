@@ -1,9 +1,9 @@
-require 'remacs/version'
-require 'remacs/event_manager'
-require 'remacs/ui/echo_area'
+require 'amun/version'
+require 'amun/event_manager'
+require 'amun/ui/echo_area'
 require 'curses'
 
-module Remacs
+module Amun
   module_function
 
   class Application
@@ -59,7 +59,7 @@ module Remacs
     end
 
     def init_ui
-      self.echo_area = Remacs::UI::EchoArea.new
+      self.echo_area = Amun::UI::EchoArea.new
     end
   end
 end

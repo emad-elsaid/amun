@@ -1,4 +1,4 @@
-# Remacs (Work in progress)
+# Amun (Work in progress)
 
 A minimal CLI text editor, built on Ruby, looking for Emacs as it's father and idol.
 
@@ -11,11 +11,11 @@ bindings as a package like emacs Evil mode, but doing the other way around won't
 
 ## Installation
 
-    $ gem install remacs
+    $ gem install amun
 
 ## Usage
 
-remacs install an executable to your path, so executing `remacs` from your commandline should launch remacs
+amun install an executable to your path, so executing `amun` from your commandline should launch amun
 
 ## Development
 
@@ -23,7 +23,7 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/blazeeboy/remacs.
+Bug reports and pull requests are welcome on GitHub at https://github.com/blazeeboy/amun.
 
 
 ## License

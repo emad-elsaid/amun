@@ -1,4 +1,4 @@
-module Remacs
+module Amun
   # = Event manager
   # Stores a stack of methods to call for each event,
   # when an event is triggered it executes methods in Last-In-First-Out

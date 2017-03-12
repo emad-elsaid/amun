@@ -1,3 +1,3 @@
-module Remacs
+module Amun
   VERSION = "0.1.1"
 end
