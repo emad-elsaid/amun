@@ -22,6 +22,7 @@ module Remacs
     end
 
     # register an *objects*' *method* to be executed when the *event* is triggered
+    #
     # event(String):: and event to bind the method to
     # object(Object):: an object or class, that respond to +method+
     # method(Symbol):: a method name that should be executed when the event is triggered
@@ -34,6 +35,7 @@ module Remacs
     end
 
     # remove all occurence of *method* from the *event* stack
+    #
     # event(String):: the event name
     # object(Object):: object that we #bind it's method before
     # method(Symbol):: method name we #bind before

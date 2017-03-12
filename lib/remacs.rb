@@ -1,12 +1,13 @@
 require 'remacs/version'
 require 'remacs/event_manager'
+require 'remacs/ui/echo_area'
 require 'curses'
 
 module Remacs
   module_function
 
   class Application
-    attr_accessor :keyboard, :events
+    attr_accessor :keyboard, :events, :echo_area
 
     def self.instance
       @instance ||= new
@@ -22,12 +23,14 @@ module Remacs
 
     def run
       init_curses
-      screen << "Press ESC to exit.\n"
+      init_ui
+
+      echo_area.echo 'Press ESC to exit.'
 
       Thread.new do
         while ch = screen.get_char
           keyboard.trigger(ch)
-          screen.refresh
+          echo_area.refresh
         end
       end.join
     end
@@ -53,6 +56,10 @@ module Remacs
       Curses.start_color
       Curses.stdscr.keypad(true)
       Curses.ESCDELAY = 0
+    end
+
+    def init_ui
+      self.echo_area = Remacs::UI::EchoArea.new
     end
   end
 end
