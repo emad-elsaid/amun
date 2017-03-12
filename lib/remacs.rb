@@ -1,14 +1,12 @@
 require 'remacs/version'
 require 'remacs/event_manager'
-require 'remacs/helpers/keyboard'
-require 'remacs/helpers/colors'
 require 'curses'
 
 module Remacs
   module_function
 
   class Application
-    attr_accessor :keyboard
+    attr_accessor :keyboard, :events
 
     def self.instance
       @instance ||= new
@@ -19,29 +17,32 @@ module Remacs
     end
 
     def write_char(char)
-      Curses.stdscr.addstr(Curses.keyname(char))
+      screen.addstr(char.to_s)
     end
 
     def run
       init_curses
-
-      Helpers::Colors.register(:title, 221, 0)
-      Helpers::Colors.use :title
+      screen << "Press ESC to exit.\n"
 
       Thread.new do
-        while ch = Curses.stdscr.getch
+        while ch = screen.get_char
           keyboard.trigger(ch)
-          Curses.stdscr.refresh
+          screen.refresh
         end
       end.join
     end
 
+    def screen
+      @screen ||= Curses.stdscr
+    end
+
     private
 
-    def initialize(keyboard = EventManager.new)
+    def initialize(keyboard = EventManager.new, events: EventManager.new)
       self.keyboard = keyboard
+      self.events = events
 
-      keyboard.bind Helpers::Keyboard.key2event("\C-c"), self, :quit
+      keyboard.bind "\e", self, :quit
       keyboard.bind_all self, :write_char
     end
 
@@ -51,6 +52,7 @@ module Remacs
       Curses.noecho
       Curses.start_color
       Curses.stdscr.keypad(true)
+      Curses.ESCDELAY = 0
     end
   end
 end
