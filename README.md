@@ -1,4 +1,8 @@
-# Amun (Work in progress) AKA. "King of the gods and god of the wind" ![Build Status](https://travis-ci.org/blazeeboy/amun.svg) ![Gem version](https://badge.fury.io/rb/amun.svg) ![Code Climate](https://codeclimate.com/github/blazeeboy/amun/badges/gpa.svg) ![Test Coverage](https://codeclimate.com/github/blazeeboy/amun/badges/coverage.svg)
+# Amun (Work in progress) AKA. "King of the gods and god of the wind"
+[![Gem Version](https://badge.fury.io/rb/amun.svg)](http://badge.fury.io/rb/amun)
+[![Build Status](https://travis-ci.org/blazeeboy/amun.svg?branch=master)](https://travis-ci.org/blazeeboy/amun)
+[![Code Climate](https://codeclimate.com/github/blazeeboy/amun/badges/gpa.svg)](https://codeclimate.com/github/blazeeboy/amun)
+[![Test Coverage](https://codeclimate.com/github/blazeeboy/amun/badges/coverage.svg)](https://codeclimate.com/github/blazeeboy/amun)
 
 A minimal CLI text editor, built on Ruby, looking for Emacs as it's father and idol.
 
