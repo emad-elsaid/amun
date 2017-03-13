@@ -1,4 +1,4 @@
-# Amun (Work in progress)
+# Amun (Work in progress) ![Build Status](https://travis-ci.org/blazeeboy/amun.svg) ![Gem version](https://badge.fury.io/rb/amun.svg)
 
 A minimal CLI text editor, built on Ruby, looking for Emacs as it's father and idol.
 
