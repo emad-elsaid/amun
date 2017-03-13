@@ -53,6 +53,11 @@ module Amun
         Curses.init_pair(COLORS[name], foreground, background)
       end
 
+      # check if a color pair is registered or not, returns true if registered
+      def registered?(name)
+        COLORS.key? name
+      end
+
       # use color pair for the next printed text
       # name(Symbol):: a color pair name registered before with #register
       # type(Colors::Constant):: a text style constant defined in Colors, that manipulate the text style (Bold, Underline, Invert colors)

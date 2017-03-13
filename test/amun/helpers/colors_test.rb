@@ -29,4 +29,17 @@ class ColorsTest < Minitest::Test # :nodoc:
     9.times { |i| colors.register("window_title_#{i}", 16, 18) }
     assert true
   end
+
+  def test_registered_color
+    colors = Amun::Helpers::Colors
+    colors.clear
+    colors.register(:color, 16, 18)
+    assert colors.registered?(:color)
+  end
+
+  def test_not_registered_color
+    colors = Amun::Helpers::Colors
+    colors.clear
+    refute colors.registered?(:color)
+  end
 end
