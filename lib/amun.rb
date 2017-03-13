@@ -4,8 +4,7 @@ require 'amun/ui/echo_area'
 require 'curses'
 
 module Amun
-  module_function
-
+  # singleton class that represent the current Amun application
   class Application
     attr_accessor :keyboard, :events, :echo_area
 
