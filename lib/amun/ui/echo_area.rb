@@ -18,7 +18,7 @@ module Amun
       end
 
       # render the echo area window
-      def refresh
+      def render
         @window.clear
         @window << @message
         @window.refresh

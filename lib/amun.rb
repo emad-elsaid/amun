@@ -1,12 +1,13 @@
 require 'amun/version'
 require 'amun/event_manager'
 require 'amun/ui/echo_area'
+require 'amun/ui/buffer'
 require 'curses'
 
 module Amun
   # singleton class that represent the current Amun application
   class Application
-    attr_accessor :events, :echo_area
+    attr_accessor :events, :buffers, :echo_area, :ui, :window
 
     def self.instance
       @instance ||= new
@@ -32,21 +33,29 @@ module Amun
     end
 
     def trigger(event)
-      events.trigger(event)
+      ui.trigger(event) && events.trigger(event)
     rescue StandardError => e
       echo_area.echo "#{e.message} (#{e.backtrace.first})"
     ensure
-      refresh_ui
+      render
+    end
+
+    def error
+      raise 'sdflkdsjflk'
     end
 
     private
 
     def initialize(events: EventManager.new)
       self.events = events
+      self.buffers = []
+      self.window = screen.subwin(Curses.lines - 1, Curses.cols, 0, 0)
 
       events.bind "\C-c", self, :quit
-      events.bind_all self, :write_char
+      events.bind "x", self, :error
+      # events.bind_all self, :write_char
     end
+
 
     def init_curses
       Curses.init_screen
@@ -59,13 +68,16 @@ module Amun
 
     def init_ui
       self.echo_area = Amun::UI::EchoArea.new
+      self.ui = Amun::UI::Buffer.new
+      buffers << ui
     end
 
-    def refresh_ui
-      x = screen.curx
-      y = screen.cury
-      echo_area.refresh
-      screen.setpos y, x
+    def render
+      # x = screen.curx
+      # y = screen.cury
+      ui.render(window)
+      echo_area.render
+      # screen.setpos y, x
     end
 
     def keyboard_thread
