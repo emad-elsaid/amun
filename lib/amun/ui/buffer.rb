@@ -1,6 +1,5 @@
 require 'amun/event_manager'
 require 'amun/major_modes/fundamental'
-require 'amun/ui/presenters/fundamental'
 require 'amun/ui/mode_line'
 
 module Amun

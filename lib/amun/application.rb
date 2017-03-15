@@ -7,7 +7,7 @@ require 'curses'
 module Amun
   # singleton class that represent the current Amun application
   class Application
-    attr_accessor :events, :buffers, :echo_area, :ui, :window
+    attr_accessor :events, :buffers, :echo_area, :ui
 
     def self.instance
       @instance ||= new
@@ -32,6 +32,10 @@ module Amun
       @screen ||= Curses.stdscr
     end
 
+    def window
+      @window ||= screen.subwin(Curses.lines - 1, Curses.cols, 0, 0)
+    end
+
     def trigger(event)
       ui.trigger(event) && events.trigger(event)
     rescue StandardError => e
@@ -45,7 +49,6 @@ module Amun
     def initialize(events: EventManager.new)
       self.events = events
       self.buffers = []
-      self.window = screen.subwin(Curses.lines - 1, Curses.cols, 0, 0)
 
       events.bind "\C-c", self, :quit
     end

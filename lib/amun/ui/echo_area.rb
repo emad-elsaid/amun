@@ -8,7 +8,6 @@ module Amun
     # is called it will display the message next time #render is called
     class EchoArea
       def initialize
-        @window = Curses::Window.new(1, Curses.cols, Curses.lines - 1, 0)
         @message = ''
       end
 
@@ -17,12 +16,16 @@ module Amun
         @message = message
       end
 
+      def window
+        @window ||= Curses::Window.new(1, Curses.cols, Curses.lines - 1, 0)
+      end
+
       # render the echo area window
       def render
-        @window.clear
-        @window << @message
-        @window.refresh
-        @message = ''
+        window.clear
+        window << @message
+        window.refresh
+        message = ''
       end
     end
   end
