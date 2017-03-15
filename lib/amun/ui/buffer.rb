@@ -39,8 +39,14 @@ module Amun
       end
 
       def render(window)
-        major_mode.render(window) &&
-          mode_line.render(window)
+        major_mode_window = window.subwin(window.maxy - 1, window.maxx, 0, 0)
+        mode_line_window = window.subwin(1, window.maxx, window.maxy - 1, 0)
+
+        major_mode.render(major_mode_window) &&
+          mode_line.render(mode_line_window)
+
+        major_mode_window.close
+        mode_line_window.close
       end
 
       def major_mode=(mode)

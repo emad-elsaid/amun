@@ -6,7 +6,7 @@ module Amun
       end
 
       def render(window)
-        window.setpos(window.maxy - 1, 0)
+        window.clear
         window << buffer.major_mode.class.name
       end
     end
