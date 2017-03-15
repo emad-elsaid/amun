@@ -73,11 +73,10 @@ module Amun
     end
 
     def render
-      # x = screen.curx
-      # y = screen.cury
       ui.render(window)
       echo_area.render
-      # screen.setpos y, x
+      window.refresh
+      screen.refresh
     end
 
     def keyboard_thread
