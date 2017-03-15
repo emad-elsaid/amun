@@ -9,17 +9,20 @@ module Amun
     class EchoArea
       def initialize
         @window = Curses::Window.new(1, Curses.cols, Curses.lines - 1, 0)
+        @message = ''
       end
 
       # display a *message* in the echo area
       def echo(message)
-        @window << message
+        @message = message
       end
 
       # render the echo area window
       def refresh
-        @window.noutrefresh
         @window.clear
+        @window << @message
+        @window.refresh
+        @message = ''
       end
     end
   end
