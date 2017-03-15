@@ -11,10 +11,19 @@ module Amun
         @events.trigger event
       end
 
-      def io
-        @io ||= Amun::Application.instance.buffers.find do |b|
+      def buffer
+        @buffer ||= Amun::Application.instance.buffers.find do |b|
           b.major_mode == self
-        end.io
+        end
+      end
+
+      def io
+        @io ||= buffer.io
+      end
+
+      def render(window)
+        window.clear
+        window << io.string
       end
 
       def event_handler(event)

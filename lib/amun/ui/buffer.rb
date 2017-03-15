@@ -15,22 +15,23 @@ module Amun
     # also it has a major mode responsible of presenting data and manipulating
     # text.
     class Buffer
-      attr_accessor :minor_modes, :presenter, :mode_line
+      attr_accessor :minor_modes, :mode_line, :point, :mark
       attr_reader :io, :major_mode
 
       def initialize(
         io: StringIO.new,
         major_mode: Amun::MajorModes::Fundamental.new,
-        presenter: Amun::UI::Presenters::Fundamental.new,
         mode_line: Amun::UI::ModeLine.new
       )
-        self.io = io
+        @io = io
 
         self.major_mode = major_mode
         self.minor_modes = []
 
-        self.presenter = presenter
         self.mode_line = mode_line
+
+        self.point = 0
+        self.mark = nil
       end
 
       def trigger(event)
@@ -39,20 +40,13 @@ module Amun
       end
 
       def render(window)
-        presenter.render(window) &&
+        major_mode.render(window) &&
           mode_line.render(window)
       end
 
       def major_mode=(mode)
         raise "Can't set nil mode for a buffer" if mode.nil?
         @major_mode = mode
-      end
-
-      private
-
-      def io=(io)
-        raise "Can't set nil IO for buffer" if io.nil?
-        @io = io
       end
     end
   end
