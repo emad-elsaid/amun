@@ -56,6 +56,7 @@ module Amun
 
     def init_curses
       Curses.init_screen
+      Curses.curs_set 0
       Curses.raw
       Curses.noecho
       Curses.start_color
@@ -70,11 +71,9 @@ module Amun
     end
 
     def render
-      Curses.curs_set 0
       ui.render(window)
       echo_area.render
       window.refresh
-      Curses.curs_set 1
     end
 
     def keyboard_thread
