@@ -24,7 +24,7 @@ module Amun
     def run
       init_curses
       init_ui
-
+      render
       keyboard_thread.join
     end
 
@@ -53,7 +53,6 @@ module Amun
       events.bind "\C-c", self, :quit
     end
 
-
     def init_curses
       Curses.init_screen
       Curses.curs_set 0
@@ -72,6 +71,9 @@ module Amun
 
     def render
       ui.render(window)
+    rescue StandardError => e
+      echo_area.echo "#{e.message} (#{e.backtrace.first})"
+    ensure
       echo_area.render
       window.refresh
     end
