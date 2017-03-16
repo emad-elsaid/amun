@@ -1,4 +1,6 @@
-# Amun (Work in progress) AKA. "King of the gods and god of the wind"
+# Amun (Work in progress)
+
+## "King of the gods and god of the wind"
 [![Gem Version](https://badge.fury.io/rb/amun.svg)](http://badge.fury.io/rb/amun)
 [![Build Status](https://travis-ci.org/blazeeboy/amun.svg?branch=master)](https://travis-ci.org/blazeeboy/amun)
 [![Code Climate](https://codeclimate.com/github/blazeeboy/amun/badges/gpa.svg)](https://codeclimate.com/github/blazeeboy/amun)
@@ -20,6 +22,26 @@ bindings as a package like emacs Evil mode, but doing the other way around won't
 ## Usage
 
 amun install an executable to your path, so executing `amun` from your command-line should launch amun
+
+## Structure
+
+
+### Helpers
+
+Helpers are modules that any class can use to do side tasks, think of it like Ruby on rails helpers.
+
+* Only modules no classes
+* doesn't depend on each other
+* depends on the project dependencies only like "Curses"
+
+### MajorModes
+
+Classes that are responsible the following for a buffer object:
+
+* event handling
+* manipulating IO
+* Rendering IO into a curses window
+
 
 ## Development
 
