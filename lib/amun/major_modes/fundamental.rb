@@ -12,7 +12,9 @@ module Amun
       end
 
       def buffer
-        @buffer ||= Amun::Application.instance.buffers.find { |b| b.major_mode == self }
+        @buffer ||= Amun::Application.instance.buffers.find do |b|
+          b.major_mode == self
+        end
       end
 
       def trigger(event)
@@ -26,15 +28,19 @@ module Amun
 
         window << string[0...point]
         window.attron(Helpers::Colors::REVERSE)
-        window << ( string[point] || ' ' )
+        window << (string[point] || ' ')
         window.attroff(Helpers::Colors::REVERSE)
         window << string[(point + 1)..-1]
       end
 
       def event_handler(event)
-        return true if event =~ /[^[:print:]\n\t]/
-        buffer.point += 1
-        @io << event
+        case event
+        when /[^[:print:]\n\t]/
+          true
+        else
+          buffer.point += 1
+          @io << event
+        end
       end
     end
   end
