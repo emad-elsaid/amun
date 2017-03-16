@@ -5,7 +5,7 @@ require 'amun/ui/buffer'
 require 'curses'
 
 module Amun
-  # singleton class that represent the current Amun application
+  # singleton class that represent Amun application
   class Application
     attr_accessor :events, :buffers, :echo_area, :ui
 
@@ -15,10 +15,6 @@ module Amun
 
     def quit(_event)
       exit 0
-    end
-
-    def write_char(char)
-      screen.addstr(char.to_s)
     end
 
     def run
