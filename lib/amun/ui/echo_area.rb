@@ -17,11 +17,15 @@ module Amun
       end
 
       def window
-        @window ||= Curses::Window.new(1, Curses.cols, Curses.lines - 1, 0)
+        @window ||=
+      end
+
+      def trigger(*)
+        true
       end
 
       # render the echo area window
-      def render
+      def render(window)
         window.clear
         window << @message
         window.refresh

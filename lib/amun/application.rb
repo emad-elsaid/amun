@@ -1,13 +1,14 @@
+require 'curses'
+
 require 'amun/version'
 require 'amun/event_manager'
-require 'amun/ui/echo_area'
 require 'amun/ui/buffer'
-require 'curses'
+require 'amun/ui/windows/frame'
 
 module Amun
   # singleton class that represent Amun application
   class Application
-    attr_accessor :events, :buffers, :echo_area, :ui
+    attr_accessor :buffers, :current_buffer, :ui
 
     def self.instance
       @instance ||= new
@@ -20,33 +21,16 @@ module Amun
     def run
       init_curses
       init_ui
-      render
+      ui.render
       keyboard_thread.join
-    end
-
-    def screen
-      @screen ||= Curses.stdscr
-    end
-
-    def window
-      @window ||= screen.subwin(Curses.lines - 1, Curses.cols, 0, 0)
-    end
-
-    def trigger(event)
-      ui.trigger(event) && events.trigger(event)
-    rescue StandardError => e
-      echo_area.echo "#{e.message} (#{e.backtrace.first})"
-    ensure
-      render
     end
 
     private
 
-    def initialize(events: EventManager.new)
-      self.events = events
+    def initialize
       self.buffers = []
 
-      events.bind "\C-c", self, :quit
+      Amun::EventManager.bind "\C-c", self, :quit
     end
 
     def init_curses
@@ -60,24 +44,15 @@ module Amun
     end
 
     def init_ui
-      self.echo_area = Amun::UI::EchoArea.new
-      self.ui = Amun::UI::Buffer.new(name: '*Scratch*')
-      buffers << ui
-    end
-
-    def render
-      ui.render(window)
-    rescue StandardError => e
-      echo_area.echo "#{e.message} (#{e.backtrace.first})"
-    ensure
-      echo_area.render
-      window.refresh
+      self.ui = Amun::UI::Windows::Frame.new
+      self.current_buffer = Amun::UI::Buffer.new(name: '*Scratch*')
+      buffers << current_buffer
     end
 
     def keyboard_thread
       Thread.new do
         while (ch = screen.get_char)
-          trigger(ch)
+          ui.trigger(ch)
         end
       end
     end

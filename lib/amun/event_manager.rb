@@ -70,12 +70,37 @@ module Amun
       trigger_for_event(event, event) && trigger_for_event(:all, event)
     end
 
+    # class will have the same methods as the EventManager
+    # instance, so you can attack events and trigger it globally
+    # like if you have a global instance if EventManager and
+    # you're attaching and triggering events from it instead
+    # if talking to a specific instance, this global trigger
+    # will be handled by one of the editor toplevel components
+    # and it should be the lowest priority, if every thing else
+    # can't handle the event it should ask this class if anyone
+    # registered something globally to handle this event.
+    #
+    # if you want to handle events in your major mode, minor modes
+    # or anything that the application will ask it to trigger event
+    # you need to instanciate an object, if you need your action to
+    # the default and should be handled globally, like exiting the application
+    # or changing theme, or changing some global variable, update packages
+    # or any similar global actions, then using the class methods will
+    # make sense here.
+    class << self
+      delegate :bind, :unbind, :bind_all, :unbind_all, :trigger, to: :instance
+    end
+
     private
 
     def trigger_for_event(stack, event)
       @bindings[stack].all? do |binding|
         binding[:object].send binding[:method], event
       end
+    end
+
+    def instance
+      @instance ||= new
     end
   end
 end
