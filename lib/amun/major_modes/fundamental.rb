@@ -2,7 +2,7 @@ require 'amun/helpers/colors'
 
 module Amun
   module MajorModes
-    # basic mode that show any IO as generic text without coloring
+    # Basic mode that show any Generic IO
     class Fundamental
       def initialize(io)
         @io = io

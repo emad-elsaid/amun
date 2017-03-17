@@ -8,12 +8,13 @@ module Amun
     # also it has a major mode responsible of presenting data and manipulating
     # text.
     class Buffer
-      attr_accessor :minor_modes, :mode_line, :point, :mark
+      attr_accessor :name, :minor_modes, :mode_line, :point, :mark
       attr_reader :io, :major_mode
 
-      def initialize(io: StringIO.new, major_mode_class: Amun::MajorModes::Fundamental)
+      def initialize(name: '', io: StringIO.new, major_mode_class: Amun::MajorModes::Fundamental)
         @io = io
 
+        self.name = name
         self.major_mode = major_mode_class.new(@io)
         self.minor_modes = []
 

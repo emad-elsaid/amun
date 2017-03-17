@@ -37,6 +37,7 @@ module Amun
       RIGHT = Curses::A_RIGHT
 
       COLORS = Hash.new { |h, k| h[k] = h.length + 1 }
+      DEFAULT_COLOR = :default
       private_constant :COLORS
 
       # register or update a color pair with *foreground* and *background*
@@ -58,13 +59,44 @@ module Amun
         COLORS.key? name
       end
 
+
+      # works like #register but doesn't override your color if it's already
+      # registered, this is a better method for any module to use to define colors
+      # #register should be used for redefining a color pair values
+      def register_default(name, foreground, background)
+        return if registered? name
+        register(name, foreground, background)
+      end
+
       # use color pair for the next printed text
+      # window(Curses Window):: that we need to change it's colors
       # name(Symbol):: a color pair name registered before with #register
       # type(Colors::Constant):: a text style constant defined in Colors, that manipulate the text style (Bold, Underline, Invert colors)
-      def use(name, type = NORMAL)
+      def use(window, name, type = NORMAL)
         index = COLORS.key?(name) ? COLORS[name] : 0
-        Curses.attron(Curses.color_pair(index)| type)
+        window.attron(Curses.color_pair(index) | type)
+      end
+
+      # print string in Curses window in the choosen color and style
+      def print(window, *strings)
+        strings.each do |string|
+          use(window, string.color || DEFAULT_COLOR, string.style || NORMAL)
+          window << string
+        end
       end
     end
+  end
+end
+
+# for easier printing of colored string on the screen
+# we can add color property to any string and then
+# use it to print the string on the screen
+class String
+  attr_accessor :color, :style
+
+  def colorize(color, style = Amun::Helpers::Colors::NORMAL)
+    self.color = color
+    self.style = style
+    self
   end
 end

@@ -61,7 +61,7 @@ module Amun
 
     def init_ui
       self.echo_area = Amun::UI::EchoArea.new
-      self.ui = Amun::UI::Buffer.new
+      self.ui = Amun::UI::Buffer.new(name: '*Scratch*')
       buffers << ui
     end
 
