@@ -17,6 +17,12 @@ module Amun
           echo_area.trigger(event) &&
             buffer.trigger(event) &&
             Amun::EventManager.trigger(event)
+        rescue StandardError => e
+          echo_area.echo "#{e.message} (#{e.backtrace.first})"
+        ensure
+          echo_area_window.refresh
+          buffer_window.refresh
+          screen.refresh
         end
 
         def render
@@ -25,7 +31,6 @@ module Amun
         rescue StandardError => e
           echo_area.echo "#{e.message} (#{e.backtrace.first})"
         ensure
-          echo_area.render(echo_area_window)
           screen.refresh
         end
 

@@ -24,7 +24,6 @@ module Amun
       def render(window)
         window.clear
         window << @message
-        window.refresh
         @message = ''
       end
     end
