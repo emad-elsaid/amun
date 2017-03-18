@@ -51,7 +51,7 @@ module Amun
 
     def keyboard_thread
       Thread.new do
-        while (ch = screen.get_char)
+        while (ch = Curses.stdscr.get_char)
           ui.trigger(ch)
         end
       end

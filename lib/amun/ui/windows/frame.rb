@@ -26,7 +26,7 @@ module Amun
           echo_area.echo "#{e.message} (#{e.backtrace.first})"
         ensure
           echo_area.render(echo_area_window)
-          window.refresh
+          screen.refresh
         end
 
         private

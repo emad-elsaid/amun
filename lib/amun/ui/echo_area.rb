@@ -16,10 +16,6 @@ module Amun
         @message = message
       end
 
-      def window
-        @window ||=
-      end
-
       def trigger(*)
         true
       end
@@ -29,7 +25,7 @@ module Amun
         window.clear
         window << @message
         window.refresh
-        message = ''
+        @message = ''
       end
     end
   end

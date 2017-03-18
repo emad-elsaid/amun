@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Amun
   # = Event manager
   # Stores a stack of methods to call for each event,
@@ -88,7 +90,15 @@ module Amun
     # or any similar global actions, then using the class methods will
     # make sense here.
     class << self
-      delegate :bind, :unbind, :bind_all, :unbind_all, :trigger, to: :instance
+      extend Forwardable
+
+      def_delegators :instance, :bind, :unbind, :bind_all, :unbind_all, :trigger
+
+      private
+
+      def instance
+        @instance ||= new
+      end
     end
 
     private
@@ -97,10 +107,6 @@ module Amun
       @bindings[stack].all? do |binding|
         binding[:object].send binding[:method], event
       end
-    end
-
-    def instance
-      @instance ||= new
     end
   end
 end
