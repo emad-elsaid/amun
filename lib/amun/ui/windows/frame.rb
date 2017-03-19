@@ -20,9 +20,7 @@ module Amun
         rescue StandardError => e
           echo_area.echo "#{e.message} (#{e.backtrace.first})"
         ensure
-          echo_area_window.refresh
-          buffer_window.refresh
-          screen.refresh
+          render
         end
 
         def render
@@ -31,7 +29,8 @@ module Amun
         rescue StandardError => e
           echo_area.echo "#{e.message} (#{e.backtrace.first})"
         ensure
-          screen.refresh
+          buffer_window.refresh
+          echo_area_window.refresh
         end
 
         private
