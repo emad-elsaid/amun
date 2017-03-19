@@ -1,4 +1,5 @@
 require 'curses'
+require 'set'
 
 require 'amun/version'
 require 'amun/event_manager'
@@ -8,28 +9,41 @@ require 'amun/ui/windows/frame'
 module Amun
   # singleton class that represent Amun application
   class Application
-    attr_accessor :buffers, :current_buffer, :ui
+    attr_accessor :buffers
+    attr_writer :frame, :current_buffer
 
     def self.instance
       @instance ||= new
     end
 
-    def quit(_event)
+    def quit(*)
       exit 0
     end
 
     def run
       init_curses
-      init_ui
-      ui.render
+      frame.render
       keyboard_thread.join
+    end
+
+    def frame
+      @frame ||= Amun::UI::Windows::Frame.new
+    end
+
+    def current_buffer
+      @current_buffer || scratch
+    end
+
+    def scratch
+      @scratch ||= Amun::UI::Buffer.new(name: '*Scratch*')
+      buffers << @scratch
+      @scratch
     end
 
     private
 
     def initialize
-      self.buffers = []
-
+      self.buffers = Set.new
       Amun::EventManager.bind "\C-c", self, :quit
     end
 
@@ -43,16 +57,10 @@ module Amun
       Curses.ESCDELAY = 0
     end
 
-    def init_ui
-      self.ui = Amun::UI::Windows::Frame.new
-      self.current_buffer = Amun::UI::Buffer.new(name: '*Scratch*')
-      buffers << current_buffer
-    end
-
     def keyboard_thread
       Thread.new do
         while (ch = Curses.stdscr.get_char)
-          ui.trigger(ch)
+          frame.trigger(ch)
         end
       end
     end

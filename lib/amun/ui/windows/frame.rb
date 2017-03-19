@@ -6,12 +6,12 @@ require 'amun/ui/echo_area'
 module Amun
   module UI
     module Windows
+      # a Frame fills all the space in terminal
+      # renders an echo area and an object that
+      # respond to #render and #trigger, like buffer,
+      # or another window or so
       class Frame
-        attr_accessor :echo_area
-
-        def initialize
-          self.echo_area = Amun::UI::EchoArea.new
-        end
+        attr_writer :echo_area
 
         def trigger(event)
           echo_area.trigger(event) &&
@@ -33,6 +33,10 @@ module Amun
           echo_area_window.refresh
         end
 
+        def echo_area
+          @echo_area ||= Amun::UI::EchoArea.new
+        end
+
         private
 
         def buffer
@@ -48,7 +52,7 @@ module Amun
         end
 
         def echo_area_window
-          @echo_area_window ||= Curses::Window.new(1, Curses.cols, Curses.lines - 1, 0)
+          @echo_area_window ||= screen.subwin(1, Curses.cols, Curses.lines - 1, 0)
         end
       end
     end
