@@ -4,17 +4,11 @@ module Amun
   module MajorModes
     # Basic mode that show any Generic IO
     class Fundamental
-      def initialize(io)
-        @io = io
+      def initialize(buffer)
+        @buffer = buffer
 
         @events = Amun::EventManager.new
         @events.bind_all self, :event_handler
-      end
-
-      def buffer
-        @buffer ||= Amun::Application.instance.buffers.find do |b|
-          b.major_mode == self
-        end
       end
 
       def trigger(event)
@@ -23,8 +17,8 @@ module Amun
 
       def render(window)
         window.clear
-        string = @io.string.to_s
-        point = buffer.point
+        string = @buffer.io.string.to_s
+        point = @buffer.point
 
         window << string[0...point]
         window.attron(Helpers::Colors::REVERSE)
@@ -38,8 +32,8 @@ module Amun
         when /[^[:print:]\n\t]/
           true
         else
-          buffer.point += 1
-          @io << event
+          @buffer.point += 1
+          @buffer.io << event
         end
       end
     end

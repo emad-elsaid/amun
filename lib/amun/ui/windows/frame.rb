@@ -28,12 +28,18 @@ module Amun
         end
 
         def render
-          buffer.render(buffer_window)
-          echo_area.render(echo_window)
-        rescue StandardError => e
-          handle_exception(e)
-        ensure
+          begin
+            buffer.render(buffer_window)
+          rescue StandardError => e
+            handle_exception(e)
+          end
           buffer_window.refresh
+
+          begin
+            echo_area.render(echo_window)
+          rescue StandardError => e
+            handle_exception(e)
+          end
           echo_window.refresh
         end
 

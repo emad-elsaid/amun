@@ -1,11 +1,13 @@
 module Amun
   module UI
     module ModeLineSegments
-      module BufferName
-        module_function
+      class BufferName
+        def initialize(buffer)
+          @buffer = buffer
+        end
 
-        def render(buffer, _window)
-          "#{buffer.name} ".colorize(:mode_line)
+        def render(*)
+          "#{@buffer.name} ".colorize(:mode_line)
         end
       end
     end

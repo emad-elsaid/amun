@@ -7,6 +7,12 @@ module Amun
     # should be linked to \*messages\* memory buffer and each time the #log
     # is called it will display the message next time #render is called
     class EchoArea
+      attr_writer :events
+
+      def events
+        @events ||= Amun::EventManager.new
+      end
+
       def initialize
         @message = ''
       end
@@ -16,8 +22,8 @@ module Amun
         @message = message
       end
 
-      def trigger(*)
-        true
+      def trigger(event)
+        events.trigger(event)
       end
 
       # render the echo area window

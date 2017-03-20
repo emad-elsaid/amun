@@ -7,22 +7,24 @@ module Amun
     class ModeLine
       attr_reader :left_segments, :right_segments
 
-      def initialize
-        Helpers::Colors.register_default(:mode_line, 0, 255)
+      def initialize(buffer)
+        @buffer = buffer
         @left_segments = [
-          ModeLineSegments::BufferName,
-          ModeLineSegments::MajorMode
+          ModeLineSegments::BufferName.new(buffer),
+          ModeLineSegments::MajorMode.new(buffer)
         ]
         @right_segments = []
+
+        Helpers::Colors.register_default(:mode_line, 0, 255)
       end
 
-      def render(buffer, window)
+      def render(window)
         right_output = right_segments.map do |segment|
-          segment.render(buffer, window)
+          segment.render(window)
         end.flatten
 
         left_output = left_segments.map do |segment|
-          segment.render(buffer, window)
+          segment.render(window)
         end.flatten
 
         size = (right_output + left_output).map(&:size).inject(0, :+)

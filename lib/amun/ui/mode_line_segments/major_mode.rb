@@ -1,11 +1,14 @@
 module Amun
   module UI
     module ModeLineSegments
-      module MajorMode
-        module_function
+      class MajorMode
+        def initialize(buffer)
+          @buffer = buffer
+        end
 
-        def render(buffer, _window)
-          "(#{buffer.major_mode.class.name.split('::').last}) ".colorize(:mode_line)
+        def render(*)
+          mode = @buffer.major_mode.class.name.split('::').last
+          "(#{mode}) ".colorize(:mode_line)
         end
       end
     end
