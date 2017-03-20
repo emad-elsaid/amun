@@ -1,23 +1,29 @@
 require 'curses'
 require 'set'
+require 'singleton'
 
-require 'amun/version'
 require 'amun/event_manager'
 require 'amun/ui/buffer'
 require 'amun/ui/windows/frame'
 
 module Amun
-  # singleton class that represent Amun application
+  # singleton Amun application, it initialize curses,
+  # have buffers and the frame and handles keyboard
   class Application
-    attr_accessor :buffers
-    attr_writer :frame, :current_buffer
+    include Singleton
 
-    def self.instance
-      @instance ||= new
+    attr_writer :frame, :buffers, :current_buffer
+
+    def frame
+      @frame ||= Amun::UI::Windows::Frame.new
     end
 
-    def quit(*)
-      exit 0
+    def buffers
+      @buffers ||= Set.new
+    end
+
+    def current_buffer
+      @current_buffer || scratch
     end
 
     def run
@@ -26,24 +32,13 @@ module Amun
       keyboard_thread.join
     end
 
-    def frame
-      @frame ||= Amun::UI::Windows::Frame.new
-    end
-
-    def current_buffer
-      @current_buffer || scratch
-    end
-
-    def scratch
-      @scratch ||= Amun::UI::Buffer.new(name: '*Scratch*')
-      buffers << @scratch
-      @scratch
+    def quit(*)
+      exit 0
     end
 
     private
 
     def initialize
-      self.buffers = Set.new
       Amun::EventManager.bind "\C-c", self, :quit
     end
 
@@ -63,6 +58,12 @@ module Amun
           frame.trigger(ch)
         end
       end
+    end
+
+    def scratch
+      @scratch ||= Amun::UI::Buffer.new(name: '*Scratch*')
+      buffers << @scratch
+      @scratch
     end
   end
 end
