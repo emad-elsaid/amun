@@ -23,11 +23,13 @@ module Amun
       @bindings = Hash.new { |h, k| h[k] = [] }
     end
 
-    # register an *objects*' *method* to be executed when the *event* is triggered
+    # register an *objects*' *method* to be executed
+    # when the *event* is triggered
     #
     # event(String):: and event to bind the method to
     # object(Object):: an object or class, that respond to +method+
-    # method(Symbol):: a method name that should be executed when the event is triggered
+    # method(Symbol):: a method name that should be executed when the event
+    # is triggered
     def bind(event, object, method)
       unless object.respond_to? method
         raise ArgumentError, "#{method} : is not a method for #{object}"

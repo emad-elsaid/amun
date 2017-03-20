@@ -1,6 +1,7 @@
 module Amun
   module UI
     module ModeLineSegments
+      # display major mode name in mode line
       class MajorMode
         def initialize(buffer)
           @buffer = buffer

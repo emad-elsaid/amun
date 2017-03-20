@@ -3,13 +3,18 @@ require 'curses'
 module Amun
   module Helpers
     ##
-    # Colors is responsible for registering new colors pairs (foreground and background)
-    # associate the pair with a name, then #use that pair for the next text printed
-    # on screen, also contains styles constants could be passed to #use to print bold
+    # Colors is responsible for registering new colors
+    # pairs (foreground and background)
+    # associate the pair with a name, then #use that pair
+    # for the next text printed
+    # on screen, also contains styles constants could be
+    # passed to #use to print bold
     # or underline text for example
     #
-    # it's important to understand that the number of pairs that coul'd be registered
-    # is limited to a number the current terminal specify, so registering, more color
+    # it's important to understand that the number of pairs
+    # that coul'd be registered
+    # is limited to a number the current terminal specify,
+    # so registering, more color
     # pairs than allowed will result in a RuntimeError.
     #
     # color values could be taken from the xterm-256 color schema from here:
@@ -48,7 +53,7 @@ module Amun
       # background(Number):: background color in current terminal color schema
       def register(name, foreground, background)
         if COLORS.size >= Curses.color_pairs - 1
-          raise "Can't register color #{name} as the colors exceeded the limit #{Curses.color_pairs}"
+          raise "Can't register color: #{name}, max: #{Curses.color_pairs}"
         end
 
         Curses.init_pair(COLORS[name], foreground, background)
@@ -59,9 +64,9 @@ module Amun
         COLORS.key? name
       end
 
-
       # works like #register but doesn't override your color if it's already
-      # registered, this is a better method for any module to use to define colors
+      # registered, this is a better method for any
+      # module to use to define colors
       # #register should be used for redefining a color pair values
       def register_default(name, foreground, background)
         return if registered? name
@@ -71,7 +76,9 @@ module Amun
       # use color pair for the next printed text
       # window(Curses Window):: that we need to change it's colors
       # name(Symbol):: a color pair name registered before with #register
-      # type(Colors::Constant):: a text style constant defined in Colors, that manipulate the text style (Bold, Underline, Invert colors)
+      # type(Colors::Constant):: a text style constant
+      # defined in Colors, that manipulate the text style
+      # (Bold, Underline, Invert colors)
       def use(window, name, type = NORMAL)
         index = COLORS.key?(name) ? COLORS[name] : 0
         window.attron(Curses.color_pair(index) | type)

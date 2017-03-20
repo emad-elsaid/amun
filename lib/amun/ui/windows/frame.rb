@@ -28,19 +28,8 @@ module Amun
         end
 
         def render
-          begin
-            buffer.render(buffer_window)
-          rescue StandardError => e
-            handle_exception(e)
-          end
-          buffer_window.refresh
-
-          begin
-            echo_area.render(echo_window)
-          rescue StandardError => e
-            handle_exception(e)
-          end
-          echo_window.refresh
+          render_buffer
+          render_echo_area
         end
 
         private
@@ -59,6 +48,24 @@ module Amun
 
         def echo_window
           @echo_window ||= screen.subwin(1, Curses.cols, Curses.lines - 1, 0)
+        end
+
+        def render_buffer
+          begin
+            buffer.render(buffer_window)
+          rescue StandardError => e
+            handle_exception(e)
+          end
+          buffer_window.refresh
+        end
+
+        def render_echo_area
+          begin
+            echo_area.render(echo_window)
+          rescue StandardError => e
+            handle_exception(e)
+          end
+          echo_window.refresh
         end
 
         def handle_exception(e)

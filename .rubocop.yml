@@ -1,0 +1,11 @@
+AllCops:
+  Exclude:
+    - 'test/**/*'
+    - '*.gemspec'
+  DisplayCopNames: true
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/StringLiterals:
+  Enabled: false
+Style/WordArray:
+  Enabled: false

@@ -1,6 +1,7 @@
 module Amun
   module UI
     module ModeLineSegments
+      # display buffer name in modeline
       class BufferName
         def initialize(buffer)
           @buffer = buffer
