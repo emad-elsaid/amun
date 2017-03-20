@@ -23,7 +23,7 @@ module Amun
     end
 
     def current_buffer
-      @current_buffer || scratch
+      @current_buffer ||= scratch
     end
 
     def run
