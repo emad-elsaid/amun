@@ -11,30 +11,30 @@ module Amun
       # respond to #render and #trigger, like buffer,
       # or another window or so
       class Frame
-        attr_writer :echo_area
+        attr_writer :echo_area, :screen
+
+        def echo_area
+          @echo_area ||= Amun::UI::EchoArea.new
+        end
 
         def trigger(event)
           echo_area.trigger(event) &&
             buffer.trigger(event) &&
             Amun::EventManager.trigger(event)
         rescue StandardError => e
-          echo_area.echo "#{e.message} (#{e.backtrace.first})"
+          handle_exception(e)
         ensure
           render
         end
 
         def render
           buffer.render(buffer_window)
-          echo_area.render(echo_area_window)
+          echo_area.render(echo_window)
         rescue StandardError => e
-          echo_area.echo "#{e.message} (#{e.backtrace.first})"
+          handle_exception(e)
         ensure
           buffer_window.refresh
-          echo_area_window.refresh
-        end
-
-        def echo_area
-          @echo_area ||= Amun::UI::EchoArea.new
+          echo_window.refresh
         end
 
         private
@@ -51,8 +51,12 @@ module Amun
           @buffer_window ||= screen.subwin(Curses.lines - 1, Curses.cols, 0, 0)
         end
 
-        def echo_area_window
-          @echo_area_window ||= screen.subwin(1, Curses.cols, Curses.lines - 1, 0)
+        def echo_window
+          @echo_window ||= screen.subwin(1, Curses.cols, Curses.lines - 1, 0)
+        end
+
+        def handle_exception(e)
+          echo_area.echo "#{e.message} (#{e.backtrace.first})"
         end
       end
     end
