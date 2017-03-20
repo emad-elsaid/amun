@@ -9,11 +9,11 @@ module Amun
 
       def initialize(buffer)
         @buffer = buffer
+        @right_segments = []
         @left_segments = [
           ModeLineSegments::BufferName.new(buffer),
           ModeLineSegments::MajorMode.new(buffer)
         ]
-        @right_segments = []
 
         Helpers::Colors.register_default(:mode_line, 0, 255)
       end
