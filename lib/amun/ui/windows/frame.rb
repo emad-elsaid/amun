@@ -13,6 +13,10 @@ module Amun
       class Frame
         attr_writer :echo_area, :screen
 
+        def initialize(&buffer_block)
+          @buffer = buffer_block
+        end
+
         def echo_area
           @echo_area ||= Amun::UI::EchoArea.new
         end
@@ -35,7 +39,7 @@ module Amun
         private
 
         def buffer
-          Amun::Application.instance.current_buffer
+          @buffer.call
         end
 
         def screen

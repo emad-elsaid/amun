@@ -15,7 +15,9 @@ module Amun
     attr_writer :frame, :buffers, :current_buffer
 
     def frame
-      @frame ||= Amun::UI::Windows::Frame.new
+      @frame ||= Amun::UI::Windows::Frame.new do
+        current_buffer
+      end
     end
 
     def buffers
