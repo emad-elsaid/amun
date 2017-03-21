@@ -1,9 +1,6 @@
 require 'curses'
-require 'set'
 require 'singleton'
-
 require 'amun/event_manager'
-require 'amun/ui/buffer'
 require 'amun/ui/windows/frame'
 
 module Amun
