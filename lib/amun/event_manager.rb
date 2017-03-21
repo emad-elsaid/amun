@@ -19,6 +19,13 @@ module Amun
   # when the *Buffer* module saves a file it should trigger
   # that event, which executed the *update_title*.
   class EventManager
+    # Event is interrupted and no need to continue
+    INTERRUPTED = false
+    # Event is to be continued
+    CONTINUE = true
+    # Event needs to be chained, will wait for next event
+    CHAINED = 3
+
     def initialize
       @bindings = Hash.new { |h, k| h[k] = [] }
     end
@@ -71,7 +78,10 @@ module Amun
     # if any method in this chain returned false, it will stop the rest
     # of the stack.
     def trigger(event)
-      trigger_for_event(event, event) && trigger_for_event(:all, event)
+      result = trigger_for_event(event, event) && trigger_for_event(:all, event)
+      return INTERRUPTED if result == INTERRUPTED
+      return CHAINED if chain?(event)
+      CONTINUE
     end
 
     # class will have the same methods as the EventManager
