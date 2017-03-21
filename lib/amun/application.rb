@@ -8,24 +8,14 @@ require 'amun/ui/windows/frame'
 
 module Amun
   # singleton Amun application, it initialize curses,
-  # have buffers and the frame and handles keyboard
+  # have the frame and handles keyboard
   class Application
     include Singleton
 
-    attr_writer :frame, :buffers, :current_buffer
+    attr_writer :frame
 
     def frame
-      @frame ||= Amun::UI::Windows::Frame.new do
-        current_buffer
-      end
-    end
-
-    def buffers
-      @buffers ||= Set.new
-    end
-
-    def current_buffer
-      @current_buffer ||= scratch
+      @frame ||= Amun::UI::Windows::Frame.new
     end
 
     def run
@@ -60,12 +50,6 @@ module Amun
           frame.trigger(ch)
         end
       end
-    end
-
-    def scratch
-      @scratch ||= Amun::UI::Buffer.new(name: '*Scratch*')
-      buffers << @scratch
-      @scratch
     end
   end
 end

@@ -41,6 +41,24 @@ module Amun
         major_mode_window.close
         mode_line_window.close
       end
+
+      class << self
+        attr_writer :current, :instances
+
+        def instances
+          @instances ||= Set.new
+        end
+
+        def current
+          @current ||= scratch
+        end
+
+        def scratch
+          @scratch ||= new(name: '*Scratch*')
+          instances << @scratch
+          @scratch
+        end
+      end
     end
   end
 end

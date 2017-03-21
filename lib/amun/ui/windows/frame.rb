@@ -2,6 +2,7 @@ require 'curses'
 
 require 'amun/event_manager'
 require 'amun/ui/echo_area'
+require 'amun/ui/buffer'
 
 module Amun
   module UI
@@ -13,17 +14,13 @@ module Amun
       class Frame
         attr_writer :echo_area, :screen
 
-        def initialize(&buffer_block)
-          @buffer = buffer_block
-        end
-
         def echo_area
-          @echo_area ||= Amun::UI::EchoArea.new
+          @echo_area ||= EchoArea.new
         end
 
         def trigger(event)
           echo_area.trigger(event) &&
-            buffer.trigger(event) &&
+            Buffer.current.trigger(event) &&
             Amun::EventManager.trigger(event)
         rescue StandardError => e
           handle_exception(e)
@@ -37,10 +34,6 @@ module Amun
         end
 
         private
-
-        def buffer
-          @buffer.call
-        end
 
         def screen
           @screen ||= Curses.stdscr
@@ -56,7 +49,7 @@ module Amun
 
         def render_buffer
           begin
-            buffer.render(buffer_window)
+            Buffer.current.render(buffer_window)
           rescue StandardError => e
             handle_exception(e)
           end
