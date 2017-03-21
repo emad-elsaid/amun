@@ -9,22 +9,20 @@ module Amun
     # also it has a major mode responsible of presenting data and manipulating
     # text.
     class Buffer
-      attr_accessor :name, :minor_modes, :mode_line, :point, :mark, :major_mode
-      attr_reader :io
+      attr_accessor :io, :name, :major_mode, :minor_modes, :mode_line, :point, :mark
 
       DEFAULT_MODE = Amun::MajorModes::Fundamental
       DEFAULT_MODE_LINE = Amun::UI::ModeLine
 
       def initialize(opts = {})
-        @io = opts.fetch(:io, StringIO.new)
-
+        self.io = opts.fetch(:io, StringIO.new)
         self.name = opts[:name].to_s
         self.major_mode = opts.fetch(:major_mode_class, DEFAULT_MODE).new(self)
         self.mode_line = DEFAULT_MODE_LINE.new(self)
         self.minor_modes = []
 
         self.point = 0
-        self.mark = 0
+        self.mark = nil
       end
 
       def trigger(event)
