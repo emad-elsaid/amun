@@ -39,11 +39,11 @@ module Amun
         end
 
         def buffer_window
-          @buffer_window ||= screen.subwin(Curses.lines - 1, Curses.cols, 0, 0)
+          @buffer_window ||= screen.subwin(screen.maxy - 1, screen.maxx, 0, 0)
         end
 
         def echo_window
-          @echo_window ||= screen.subwin(1, Curses.cols, Curses.lines - 1, 0)
+          @echo_window ||= screen.subwin(1, screen.maxx, screen.maxy - 1, 0)
         end
 
         def render_buffer
