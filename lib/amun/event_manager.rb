@@ -111,14 +111,29 @@ module Amun
 
       def_delegators :instance, :bind, :unbind, :bind_all, :unbind_all, :trigger
 
+      # trigger an array of event_managers with an event
+      # and return one of the 3 statuses (INTERRUPTED, CHAINED, CONTINUE)
+      #
+      # if any manager returned false or INTERRUPTED will
+      # not execute further and return INTERRUPTED,
+      #
+      # if it faced an event that wants to CHAINED the event
+      # it will return CHAINED if all next managers returned
+      # CONTINUE or also CHAINED
+      #
+      # will return CONTINUE if all manangers returned continue
+      #
+      # event(Symbol):: an event to trigger on all provided managers
+      # *event_managers(*Array):: you can pass as many event managers as
+      # you like as parameters to this method, it will be triggered in order
       def join(event, *event_managers)
         event_managers.inject(CONTINUE) do |result, manager|
           case manager.trigger(event)
-          when INTERRUPTED
+          when INTERRUPTED, false
             break INTERRUPTED
           when CHAINED
             CHAINED
-          when CONTINUE
+          else
             result
           end
         end

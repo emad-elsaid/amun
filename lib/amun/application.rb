@@ -43,8 +43,12 @@ module Amun
 
     def keyboard_thread
       Thread.new do
+        chain = []
         while (ch = Curses.stdscr.get_char)
-          EventManager.join(ch, frame)
+          chain << ch
+          if EventManager.join(chain.join(' '), frame) != EventManager::CHAINED
+            chain.clear
+          end
         end
       end
     end
