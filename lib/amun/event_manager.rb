@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'set'
 
 module Amun
   # = Event manager
@@ -20,14 +21,15 @@ module Amun
   # that event, which executed the *update_title*.
   class EventManager
     # Event is interrupted and no need to continue
-    INTERRUPTED = false
+    INTERRUPTED = :interrupted
     # Event is to be continued
-    CONTINUE = true
+    CONTINUE = :continue
     # Event needs to be chained, will wait for next event
-    CHAINED = 3
+    CHAINED = :chained
 
     def initialize
       @bindings = Hash.new { |h, k| h[k] = [] }
+      @chains = Set.new
     end
 
     # register an *objects*' *method* to be executed
@@ -42,6 +44,7 @@ module Amun
         raise ArgumentError, "#{method} : is not a method for #{object}"
       end
 
+      add_chain(event)
       @bindings[event].unshift(object: object, method: method)
     end
 
@@ -54,6 +57,8 @@ module Amun
       @bindings[event].delete_if do |binding|
         binding[:object] == object && binding[:method] == method
       end
+      @bindings.delete(event) if @bindings[event].empty?
+      update_chains
     end
 
     # bind an object method to be executed when any event is triggered
@@ -79,8 +84,8 @@ module Amun
     # of the stack.
     def trigger(event)
       result = trigger_for_event(event, event) && trigger_for_event(:all, event)
-      return INTERRUPTED if result == INTERRUPTED
-      return CHAINED if chain?(event)
+      return INTERRUPTED if result == false
+      return CHAINED if chained?(event)
       CONTINUE
     end
 
@@ -119,6 +124,27 @@ module Amun
       @bindings[stack].all? do |binding|
         binding[:object].send binding[:method], event
       end
+    end
+
+    def update_chains
+      @chains = Set.new
+      @bindings.each do |event|
+        add_chain(event)
+      end
+    end
+
+    def add_chain(event)
+      event = event.to_s.strip
+      return unless event.include?(' ')
+      event.split(" ").inject("") do |chain, evt|
+        new_chain = (chain + " " + evt).strip
+        @chains << new_chain
+        new_chain
+      end
+    end
+
+    def chained?(event)
+      @chains.include? event
     end
   end
 end
