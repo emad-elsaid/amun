@@ -18,15 +18,15 @@ module Amun
       end
 
       def major_mode
-        self.major_mode = Amun::MajorModes::Fundamental.new(self)
+        @major_mode ||= Amun::MajorModes::Fundamental.new(self)
       end
 
       def mode_line
-        self.mode_line = Amun::UI::ModeLine.new(self)
+        @mode_line ||= Amun::UI::ModeLine.new(self)
       end
 
       def minor_modes
-        self.minor_modes = []
+        @minor_modes ||= []
       end
 
       def trigger(event)
