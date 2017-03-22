@@ -24,20 +24,20 @@ class EventManagerTest < Minitest::Test # :nodoc:
     true
   end
 
-  def test_return_false_when_action_returns_false
+  def test_return_interrupted_when_action_returns_false
     event_manager = Amun::EventManager.new
     event_manager.bind 't', self, :stop_after_me
     event_manager_binding = event_manager.trigger 't'
 
-    refute event_manager_binding
+    assert event_manager_binding, Amun::EventManager::INTERRUPTED
   end
 
-  def test_return_true_when_action_returns_true
+  def test_return_continue_when_action_returns_true
     event_manager = Amun::EventManager.new
     event_manager.bind 't', self, :continue_after_me
     event_manager_binding = event_manager.trigger 't'
 
-    assert event_manager_binding
+    assert event_manager_binding, Amun::EventManager::CONTINUE
   end
 
   def test_separate_binding_stacks
@@ -45,7 +45,7 @@ class EventManagerTest < Minitest::Test # :nodoc:
     event_manager.bind 'event', self, :stop_after_me
     doesnot_stop_execution = event_manager.trigger 'another_event'
 
-    assert doesnot_stop_execution
+    assert doesnot_stop_execution, Amun::EventManager::CONTINUE
   end
 
   def test_trigger_all_stack
@@ -53,6 +53,6 @@ class EventManagerTest < Minitest::Test # :nodoc:
     event_manager.bind_all self, :stop_after_me
     event_manager_binding = event_manager.trigger 't'
 
-    refute event_manager_binding
+    assert event_manager_binding, Amun::EventManager::INTERRUPTED
   end
 end

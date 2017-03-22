@@ -2,7 +2,7 @@ require 'amun/helpers/colors'
 
 module Amun
   module MajorModes
-    # Basic mode that show any Generic IO
+    # Basic mode that show any IO
     class Fundamental
       def initialize(buffer)
         @buffer = buffer
