@@ -18,9 +18,12 @@ module Amun
         end
 
         def trigger(event)
-          echo_area.trigger(event) &&
-            Buffer.current.trigger(event) &&
-            Amun::EventManager.trigger(event)
+          EventManager.join(
+            event,
+            echo_area,
+            Buffer.current,
+            Amun::EventManager
+          )
         rescue StandardError => e
           handle_exception(e)
         ensure

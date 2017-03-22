@@ -44,7 +44,7 @@ module Amun
     def keyboard_thread
       Thread.new do
         while (ch = Curses.stdscr.get_char)
-          frame.trigger(ch)
+          EventManager.join(ch, frame)
         end
       end
     end

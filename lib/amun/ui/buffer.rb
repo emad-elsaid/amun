@@ -26,8 +26,10 @@ module Amun
       end
 
       def trigger(event)
-        minor_modes.all? { |mode| mode.trigger(event) } &&
-          major_mode.trigger(event)
+        EventManager.join(
+          event,
+          *(minor_modes + [major_mode])
+        )
       end
 
       def render(window)

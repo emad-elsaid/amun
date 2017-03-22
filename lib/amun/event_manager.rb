@@ -83,8 +83,8 @@ module Amun
     # if any method in this chain returned false, it will stop the rest
     # of the stack.
     def trigger(event)
-      result = trigger_for_event(event, event) && trigger_for_event(:all, event)
-      return INTERRUPTED if result == false
+      return INTERRUPTED unless trigger_for_event(event, event) &&
+                                trigger_for_event(:all, event)
       return CHAINED if chained?(event)
       CONTINUE
     end
@@ -110,6 +110,19 @@ module Amun
       extend Forwardable
 
       def_delegators :instance, :bind, :unbind, :bind_all, :unbind_all, :trigger
+
+      def join(event, *event_managers)
+        event_managers.inject(CONTINUE) do |result, manager|
+          case manager.trigger(event)
+          when INTERRUPTED
+            break INTERRUPTED
+          when CHAINED
+            CHAINED
+          when CONTINUE
+            result
+          end
+        end
+      end
 
       private
 

@@ -23,7 +23,7 @@ module Amun
       end
 
       def trigger(event)
-        events.trigger(event)
+        EventManager.join(event, events)
       end
 
       # render the echo area window
