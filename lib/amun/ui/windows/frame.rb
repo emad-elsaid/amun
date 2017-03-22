@@ -1,7 +1,7 @@
 require 'curses'
 require 'amun/event_manager'
-require 'amun/ui/echo_area'
 require 'amun/ui/buffer'
+require 'amun/ui/echo_area'
 
 module Amun
   module UI

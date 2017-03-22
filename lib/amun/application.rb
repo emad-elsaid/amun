@@ -1,7 +1,7 @@
 require 'curses'
 require 'singleton'
-require 'amun/event_manager'
 require 'amun/ui/windows/frame'
+require 'amun/event_manager'
 
 module Amun
   # singleton Amun application, it initialize curses,
