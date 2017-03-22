@@ -6,23 +6,27 @@ require 'amun/ui/mode_line'
 module Amun
   module UI
     # A buffer could present any kind of IO object (File, StringIO...etc)
-    # also it has a major mode responsible of presenting data and manipulating
-    # text.
+    # also it has a major mode responsible update lines and visual lines
     class Buffer
-      attr_accessor :io, :name, :major_mode, :minor_modes, :mode_line, :point, :mark
+      attr_accessor :name, :io, :text, :point, :mark
+      attr_writer :major_mode, :minor_modes, :mode_line
 
-      DEFAULT_MODE = Amun::MajorModes::Fundamental
-      DEFAULT_MODE_LINE = Amun::UI::ModeLine
-
-      def initialize(opts = {})
-        self.io = opts.fetch(:io, StringIO.new)
-        self.name = opts[:name].to_s
-        self.major_mode = opts.fetch(:major_mode_class, DEFAULT_MODE).new(self)
-        self.mode_line = DEFAULT_MODE_LINE.new(self)
-        self.minor_modes = []
-
+      def initialize(name, io = StringIO.new)
+        self.io = io
+        self.name = name
         self.point = 0
-        self.mark = nil
+      end
+
+      def major_mode
+        self.major_mode = Amun::MajorModes::Fundamental.new(self)
+      end
+
+      def mode_line
+        self.mode_line = Amun::UI::ModeLine.new(self)
+      end
+
+      def minor_modes
+        self.minor_modes = []
       end
 
       def trigger(event)
@@ -55,7 +59,7 @@ module Amun
         end
 
         def scratch
-          @scratch ||= new(name: '*Scratch*')
+          @scratch ||= new('*Scratch*')
           instances << @scratch
           @scratch
         end
