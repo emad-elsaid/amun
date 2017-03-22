@@ -82,6 +82,15 @@ module Amun
     # to be executed after all events with #bind_all method
     # if any method in this chain returned false, it will stop the rest
     # of the stack.
+    #
+    # a chained event is an event that contain a space
+    # between 2 or more events lie "\C-c \C-x" so this event
+    # should be executed when these 2 events occure after
+    # each other,
+    # if you tried to trigger the first part \C-c the
+    # trigger method will return CHAINED, assuming that \C-c
+    # is not handled and also if handled the handle execution
+    # didn't return false to interrupt the execution
     def trigger(event)
       return INTERRUPTED unless trigger_for_event(event, event) &&
                                 trigger_for_event(:all, event)
@@ -117,7 +126,7 @@ module Amun
       # if any manager returned false or INTERRUPTED will
       # not execute further and return INTERRUPTED,
       #
-      # if it faced an event that wants to CHAINED the event
+      # if it faced an event that wants to chain the event
       # it will return CHAINED if all next managers returned
       # CONTINUE or also CHAINED
       #
