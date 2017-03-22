@@ -2,6 +2,7 @@ require 'curses'
 require 'singleton'
 require 'amun/ui/windows/frame'
 require 'amun/event_manager'
+require 'amun/features_loader'
 
 module Amun
   # singleton Amun application, it initialize curses,
@@ -18,18 +19,11 @@ module Amun
     def run
       init_curses
       frame.render
+      FeaturesLoader.load
       keyboard_thread.join
     end
 
-    def quit(*)
-      exit 0
-    end
-
     private
-
-    def initialize
-      Amun::EventManager.bind "\C-c", self, :quit
-    end
 
     def init_curses
       Curses.init_screen
