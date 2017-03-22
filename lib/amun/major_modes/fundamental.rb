@@ -9,6 +9,8 @@ module Amun
 
         @events = Amun::EventManager.new
         @events.bind_all self, :event_handler
+
+        read_io if buffer.text.nil?
       end
 
       def trigger(event)
@@ -17,14 +19,13 @@ module Amun
 
       def render(window)
         window.clear
-        string = @buffer.io.string.to_s
         point = @buffer.point
 
-        window << string[0...point]
+        window << @buffer.text[0...point]
         window.attron(Helpers::Colors::REVERSE)
-        window << (string[point] || ' ')
+        window << (@buffer.text[point] || ' ')
         window.attroff(Helpers::Colors::REVERSE)
-        window << string[(point + 1)..-1]
+        window << @buffer.text[(point + 1)..-1]
       end
 
       def event_handler(event)
@@ -33,8 +34,14 @@ module Amun
           true
         else
           @buffer.point += 1
-          @buffer.io << event
+          @buffer.text << event
         end
+      end
+
+      private
+
+      def read_io
+        @buffer.text = @buffer.io.read
       end
     end
   end
