@@ -40,7 +40,7 @@ module Amun
     # method(Symbol):: a method name that should be executed when the event
     # is triggered
     def bind(event, object, method)
-      unless object.respond_to? method
+      if !object.nil? && !object.respond_to?(method)
         raise ArgumentError, "#{method} : is not a method for #{object}"
       end
 
