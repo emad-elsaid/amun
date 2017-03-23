@@ -1,6 +1,6 @@
 require 'curses'
 require 'amun/event_manager'
-require 'amun/ui/buffer'
+require 'amun/ui/windows/buffer_window'
 require 'amun/ui/echo_area'
 
 module Amun
@@ -11,7 +11,11 @@ module Amun
       # respond to #render and #trigger, like buffer,
       # or another window or so
       class Frame
-        attr_writer :echo_area, :screen
+        attr_writer :screen, :echo_area, :window
+
+        def window
+          @window ||= BufferWindow.new
+        end
 
         def echo_area
           @echo_area ||= EchoArea.new
@@ -21,7 +25,7 @@ module Amun
           EventManager.join(
             event,
             echo_area,
-            Buffer.current,
+            window,
             Amun::EventManager
           )
         rescue StandardError => e
@@ -31,7 +35,7 @@ module Amun
         end
 
         def render
-          render_buffer
+          render_content
           render_echo_area
         end
 
@@ -41,21 +45,21 @@ module Amun
           @screen ||= Curses.stdscr
         end
 
-        def buffer_window
-          @buffer_window ||= screen.subwin(screen.maxy - 1, screen.maxx, 0, 0)
+        def content_window
+          @content_window ||= screen.subwin(screen.maxy - 1, screen.maxx, 0, 0)
         end
 
         def echo_window
           @echo_window ||= screen.subwin(1, screen.maxx, screen.maxy - 1, 0)
         end
 
-        def render_buffer
+        def render_content
           begin
-            Buffer.current.render(buffer_window)
+            window.render(content_window)
           rescue StandardError => e
             handle_exception(e)
           end
-          buffer_window.refresh
+          content_window.refresh
         end
 
         def render_echo_area
