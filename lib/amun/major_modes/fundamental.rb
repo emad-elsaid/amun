@@ -25,7 +25,7 @@ module Amun
         window.attron(Helpers::Colors::REVERSE)
 
         at_point = @buffer.text[point]
-        window << ((at_point == "\n" || at_point == nil) ? " \n" : ' ')
+        window << (at_point == "\n" || at_point.nil? ? " \n" : ' ')
         window.attroff(Helpers::Colors::REVERSE)
         window << @buffer.text[(point + 1)..-1]
       end
