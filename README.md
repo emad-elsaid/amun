@@ -15,6 +15,17 @@ When I started this project I had 2 options, taking the VIM way or emacs way, lo
 extensibility over VIM, emacs customizability is far superior to VIM, so building this project as a minimal and emacs-like would open the door for vim users to have their own
 bindings as a package like emacs Evil mode, but doing the other way around won't help emacs users.
 
+## Advantages of building an editor in ruby
+
+* We can use ruby gems as package management
+* we already have bundler to fix dependencies, upgrade, downgrade gems (plugins in this case), you can even add sources for gems or get a gem from github or company inhouse gems.
+* you can reflect on the runtime and autocomplete commands
+* plugins can mutate all parts of the runtime application classes/objects included
+* ruby is easy to learn so it'll be easier to build gems that is specifically for this editor
+* lots of gems already exists and could be loaded into the editor environment
+* you can use it locally or remotly as it's terminal based
+* documentation included, rdoc is already there to be used
+
 ## Installation
 
     $ gem install amun
