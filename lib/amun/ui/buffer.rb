@@ -8,8 +8,8 @@ module Amun
     # A buffer could present any kind of IO object (File, StringIO...etc)
     # also it has a major mode responsible update lines and visual lines
     class Buffer
-      attr_accessor :name, :io, :text, :point, :mark
-      attr_writer :major_mode, :minor_modes, :mode_line
+      attr_accessor :name, :io, :text
+      attr_writer :major_mode, :minor_modes, :mode_line, :point, :mark
 
       def initialize(name, io = StringIO.new)
         self.io = io
@@ -27,6 +27,20 @@ module Amun
 
       def minor_modes
         @minor_modes ||= []
+      end
+
+      def point
+        return 0 if @point < 0
+        max = text.size
+        return max if @point > max
+        @point
+      end
+
+      def mark
+        return 0 if @mark < 0
+        max = text.size
+        return max if @mark > max
+        @mark
       end
 
       def trigger(event)

@@ -23,18 +23,23 @@ module Amun
 
         window << @buffer.text[0...point]
         window.attron(Helpers::Colors::REVERSE)
-        window << (@buffer.text[point] || ' ')
+
+        at_point = @buffer.text[point]
+        window << ((at_point == "\n" || at_point == nil) ? " \n" : ' ')
         window.attroff(Helpers::Colors::REVERSE)
         window << @buffer.text[(point + 1)..-1]
       end
 
       def event_handler(event)
+        return true unless event.is_a? String
+        return true unless event.length == 1
+
         case event
         when /[^[:print:]\n\t]/
           true
         else
+          @buffer.text.insert(@buffer.point, event)
           @buffer.point += 1
-          @buffer.text << event
         end
       end
 

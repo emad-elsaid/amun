@@ -31,7 +31,7 @@ module Amun
       Curses.raw
       Curses.noecho
       Curses.start_color
-      Curses.stdscr.keypad(true)
+      Curses.stdscr.keypad = true
       Curses.ESCDELAY = 0
     end
 
