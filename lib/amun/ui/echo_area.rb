@@ -10,7 +10,7 @@ module Amun
       attr_writer :events
 
       def events
-        @events ||= Amun::EventManager.new
+        @events ||= EventManager.new
       end
 
       def initialize

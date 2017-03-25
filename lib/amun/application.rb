@@ -14,7 +14,7 @@ module Amun
     attr_writer :frame
 
     def frame
-      @frame ||= Amun::UI::Windows::Frame.new
+      @frame ||= UI::Windows::Frame.new
     end
 
     def run

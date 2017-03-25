@@ -18,11 +18,11 @@ module Amun
       end
 
       def major_mode
-        @major_mode ||= Amun::MajorModes::Fundamental.new(self)
+        @major_mode ||= MajorModes::Fundamental.new(self)
       end
 
       def mode_line
-        @mode_line ||= Amun::UI::ModeLine.new(self)
+        @mode_line ||= UI::ModeLine.new(self)
       end
 
       def minor_modes

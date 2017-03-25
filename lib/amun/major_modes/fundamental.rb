@@ -5,12 +5,12 @@ module Amun
   module MajorModes
     # Basic mode that show any IO
     class Fundamental
-      include Amun::Behaviours::Emacs
+      include Behaviours::Emacs
 
       def initialize(buffer)
         @buffer = buffer
 
-        @events = Amun::EventManager.new
+        @events = EventManager.new
         @events.bind_all self, :event_handler
         emacs_behaviour_initialize(@events)
 
