@@ -49,16 +49,19 @@ module Amun
       end
 
       def beginning_of_line(*)
-        point = buffer.text[buffer.point] == "\n" ? buffer.point - 1 : buffer.point
-        line_start = buffer.text.rindex("\n", point)
+        return true if buffer.point.zero?
+        return true if buffer.text[buffer.point - 1] == "\n"
+
+        line_start = buffer.text.rindex("\n", buffer.point - 1)
         buffer.point = line_start.nil? ? 0 : line_start + 1
         true
       end
 
       def end_of_line(*)
         return true if buffer.text[buffer.point] == "\n"
+
         line_end = buffer.text.index("\n", buffer.point)
-        buffer.point = line_end.nil? ? buffer.text.length : line_end
+        buffer.point = line_end || buffer.text.length
         true
       end
     end
