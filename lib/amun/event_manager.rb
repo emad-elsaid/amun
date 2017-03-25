@@ -66,7 +66,7 @@ module Amun
     # be executed after the event specific stack is executed and didn't
     # stop execution
     def bind_all(object, method)
-      bind :all, object, method
+      bind "all", object, method
     end
 
     # remove the *method* from executing after every event,
@@ -74,7 +74,7 @@ module Amun
     #
     # this won't remove the method if it was registered with #bind
     def unbind_all(object, method)
-      unbind :all, object, method
+      unbind "all", object, method
     end
 
     # execute *event* stack of methods in Last-In-First-Out,
@@ -93,7 +93,7 @@ module Amun
     # didn't return false to interrupt the execution
     def trigger(event)
       return INTERRUPTED unless trigger_for_event(event, event) &&
-                                trigger_for_event(:all, event)
+                                trigger_for_event("all", event)
       return CHAINED if chained?(event)
       CONTINUE
     end
@@ -171,7 +171,6 @@ module Amun
     end
 
     def add_chain(event)
-      event = event.to_s.strip
       return unless event.include?(' ')
       event.split(" ").inject("") do |chain, evt|
         new_chain = (chain + " " + evt).strip

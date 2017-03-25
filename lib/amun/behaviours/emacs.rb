@@ -18,7 +18,10 @@ module Amun
         event_manager.bind Curses::KEY_UP.to_s, self, :previous_line
 
         event_manager.bind "\C-a", self, :beginning_of_line
+        event_manager.bind Curses::KEY_HOME.to_s, self, :beginning_of_line
+
         event_manager.bind "\C-e", self, :end_of_line
+        event_manager.bind Curses::KEY_END.to_s, self, :end_of_line
 
         event_manager.bind "\C-d", self, :delete_char
         event_manager.bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char

@@ -37,6 +37,7 @@ module Amun
       def event_handler(event)
         return true unless event.is_a? String
         return true unless event.length == 1
+        return true unless event.valid_encoding?
 
         case event
         when /[^[:print:]\n\t]/

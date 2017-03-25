@@ -3,6 +3,7 @@ require 'singleton'
 require 'amun/ui/windows/frame'
 require 'amun/event_manager'
 require 'amun/features_loader'
+require 'amun/helpers/keyboard'
 
 module Amun
   # singleton Amun application, it initialize curses,
@@ -38,7 +39,7 @@ module Amun
     def keyboard_thread
       Thread.new do
         chain = []
-        while (ch = Curses.stdscr.get_char)
+        while (ch = Helpers::Keyboard.char)
           chain << ch
           if EventManager.join(chain.join(' '), frame) != EventManager::CHAINED
             chain.clear
