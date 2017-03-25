@@ -1,14 +1,18 @@
 require 'amun/helpers/colors'
+require 'amun/behaviours/emacs'
 
 module Amun
   module MajorModes
     # Basic mode that show any IO
     class Fundamental
+      include Amun::Behaviours::Emacs
+
       def initialize(buffer)
         @buffer = buffer
 
         @events = Amun::EventManager.new
         @events.bind_all self, :event_handler
+        emacs_behaviour_initialize(@events)
 
         read_io if buffer.text.nil?
       end
@@ -19,15 +23,15 @@ module Amun
 
       def render(window)
         window.clear
-        point = @buffer.point
+        point = buffer.point
 
-        window << @buffer.text[0...point]
+        window << buffer.text[0...point]
         window.attron(Helpers::Colors::REVERSE)
 
-        at_point = @buffer.text[point]
+        at_point = buffer.text[point]
         window << (at_point == "\n" || at_point.nil? ? " \n" : ' ')
         window.attroff(Helpers::Colors::REVERSE)
-        window << @buffer.text[(point + 1)..-1]
+        window << buffer.text[(point + 1)..-1]
       end
 
       def event_handler(event)
@@ -38,15 +42,17 @@ module Amun
         when /[^[:print:]\n\t]/
           true
         else
-          @buffer.text.insert(@buffer.point, event)
-          @buffer.point += 1
+          buffer.text.insert(buffer.point, event)
+          buffer.point += 1
         end
       end
 
       private
 
+      attr_accessor :buffer
+
       def read_io
-        @buffer.text = @buffer.io.read
+        buffer.text = buffer.io.read
       end
     end
   end
