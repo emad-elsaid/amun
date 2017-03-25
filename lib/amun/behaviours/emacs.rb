@@ -19,6 +19,9 @@ module Amun
 
         event_manager.bind "\C-a", self, :beginning_of_line
         event_manager.bind "\C-e", self, :end_of_line
+
+        event_manager.bind "\C-d", self, :delete_char
+        event_manager.bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char
       end
 
       def forward_char(*)
@@ -49,19 +52,34 @@ module Amun
       end
 
       def beginning_of_line(*)
-        return true if buffer.point.zero?
-        return true if buffer.text[buffer.point - 1] == "\n"
+        point = buffer.point
+        return true if point.zero?
+        return true if buffer.text[point - 1] == "\n"
 
-        line_start = buffer.text.rindex("\n", buffer.point - 1)
+        line_start = buffer.text.rindex("\n", point - 1)
         buffer.point = line_start.nil? ? 0 : line_start + 1
         true
       end
 
       def end_of_line(*)
-        return true if buffer.text[buffer.point] == "\n"
+        point = buffer.point
+        return true if buffer.text[point] == "\n"
 
-        line_end = buffer.text.index("\n", buffer.point)
+        line_end = buffer.text.index("\n", point)
         buffer.point = line_end || buffer.text.length
+        true
+      end
+
+      def delete_char(*)
+        buffer.text.slice!(buffer.point)
+        true
+      end
+
+      def backward_delete_char(*)
+        return true if buffer.point.zero?
+
+        buffer.point -= 1
+        buffer.text.slice!(buffer.point)
         true
       end
     end
