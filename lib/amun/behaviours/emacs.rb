@@ -16,6 +16,9 @@ module Amun
 
         event_manager.bind "\C-p", self, :previous_line
         event_manager.bind Curses::KEY_UP.to_s, self, :previous_line
+
+        event_manager.bind "\C-a", self, :beginning_of_line
+        event_manager.bind "\C-e", self, :end_of_line
       end
 
       def forward_char(*)
@@ -42,6 +45,20 @@ module Amun
         previous_line_begin = buffer.text.rindex("\n", line_begin - 1) || 0
         point_offset = buffer.point - line_begin
         buffer.point = [previous_line_begin + point_offset, line_begin - 1].min
+        true
+      end
+
+      def beginning_of_line(*)
+        point = buffer.text[buffer.point] == "\n" ? buffer.point - 1 : buffer.point
+        line_start = buffer.text.rindex("\n", point)
+        buffer.point = line_start.nil? ? 0 : line_start + 1
+        true
+      end
+
+      def end_of_line(*)
+        return true if buffer.text[buffer.point] == "\n"
+        line_end = buffer.text.index("\n", buffer.point)
+        buffer.point = line_end.nil? ? buffer.text.length : line_end
         true
       end
     end
