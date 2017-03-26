@@ -17,7 +17,11 @@ module Amun
         return "#{ch} #{modified_char}" if modified_char.is_a? Numeric
         return "#{ch} #{modified_char}" if modified_char.size > 1
 
-        eval "?\\M-#{modified_char}"
+        begin
+          eval "?\\M-#{modified_char}"
+        rescue SyntaxError
+          return "#{ch} #{modified_char}"
+        end
       end
     end
   end
