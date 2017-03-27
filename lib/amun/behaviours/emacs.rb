@@ -96,6 +96,7 @@ module Amun
         delete_char
       end
 
+      # TODO should move text to kill ring
       def kill_line(*)
         if buffer.text[buffer.point] == "\n"
           buffer.text.slice!(buffer.point)
@@ -107,6 +108,7 @@ module Amun
         true
       end
 
+      # TODO should move text to kill ring
       def kill_word(*)
         first_non_letter = buffer.text.index(/\P{L}/, buffer.point) || buffer.text.size
         word_beginning = buffer.text.index(/\p{L}/, first_non_letter) || buffer.text.size
@@ -116,6 +118,8 @@ module Amun
 
       # This should be bound to \M-BACKSPACE or \M-DEL but I think the terminal doesn't send it
       # So the implementation will remain there until we find a way to catch this key
+      #
+      # TODO should move text to kill ring
       def backward_kill_word(*)
         first_letter_backward = buffer.text.rindex(/\p{L}/, buffer.point) || 0
         first_non_letter_before_word = buffer.text.rindex(/\P{L}/, first_letter_backward) || -1
