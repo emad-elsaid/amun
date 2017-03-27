@@ -24,7 +24,10 @@ module Amun
         event_manager.bind Curses::KEY_END.to_s, self, :end_of_line
 
         event_manager.bind "\C-d", self, :delete_char
-        event_manager.bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char
+        event_manager.bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char # this doesn't work, check linux
+        event_manager.bind "\C-?", self, :backward_delete_char # C-? is backspace on mac terminal for some reason
+
+        event_manager.bind Curses::Key::DC.to_s, self, :forward_delete_char
       end
 
       def forward_char(*)
@@ -84,6 +87,10 @@ module Amun
         buffer.point -= 1
         buffer.text.slice!(buffer.point)
         true
+      end
+
+      def forward_delete_char(*)
+        delete_char
       end
     end
   end
