@@ -31,7 +31,7 @@ module Amun
       private
 
       def message
-        Buffer.messages.text[@last_messages_size..-1].strip
+        Buffer.messages.text[@last_messages_size..-1]
       end
 
       def update_last_messages_size
