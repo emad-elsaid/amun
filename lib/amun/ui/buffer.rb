@@ -77,6 +77,13 @@ module Amun
           instances << @scratch
           @scratch
         end
+
+        def messages
+          @messages ||= new('*Messages*')
+          instances << @messages
+          @messages.text = '' if @messages.text.nil?
+          @messages
+        end
       end
     end
   end

@@ -67,7 +67,7 @@ module Amun
         end
 
         def handle_exception(e)
-          echo_area.echo "#{e.message} (#{e.backtrace.first})"
+          Buffer.messages.text << "#{e.message} (#{e.backtrace.first})\n"
         end
       end
     end
