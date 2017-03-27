@@ -28,6 +28,9 @@ module Amun
         event_manager.bind "\C-?", self, :backward_delete_char # C-? is backspace on mac terminal for some reason
 
         event_manager.bind Curses::Key::DC.to_s, self, :forward_delete_char
+
+        event_manager.bind "\C-k", self, :kill_line
+        event_manager.bind "\M-d", self, :kill_word
       end
 
       def forward_char(*)
@@ -91,6 +94,33 @@ module Amun
 
       def forward_delete_char(*)
         delete_char
+      end
+
+      def kill_line(*)
+        if buffer.text[buffer.point] == "\n"
+          buffer.text.slice!(buffer.point)
+          return true
+        end
+
+        line_end = buffer.text.index(/$/, buffer.point)
+        buffer.text.slice!(buffer.point...line_end)
+        true
+      end
+
+      def kill_word(*)
+        first_non_letter = buffer.text.index(/\P{L}/, buffer.point) || buffer.text.size
+        word_beginning = buffer.text.index(/\p{L}/, first_non_letter) || buffer.text.size
+        buffer.text.slice!(buffer.point...word_beginning)
+        true
+      end
+
+      # This should be bound to \M-BACKSPACE or \M-DEL but I think the terminal doesn't send it
+      # So the implementation will remain there until we find a way to catch this key
+      def backward_kill_word(*)
+        first_letter_backward = buffer.text.rindex(/\p{L}/, buffer.point) || 0
+        first_non_letter_before_word = buffer.text.rindex(/\P{L}/, first_letter_backward) || -1
+        buffer.text.slice!(first_non_letter_before_word + 1 .. buffer.point)
+        true
       end
     end
   end
