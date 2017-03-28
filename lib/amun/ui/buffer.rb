@@ -26,7 +26,7 @@ module Amun
       end
 
       def minor_modes
-        @minor_modes ||= []
+        @minor_modes ||= Set.new
       end
 
       def point
