@@ -5,6 +5,11 @@ module Amun
   module Behaviours
     module Emacs
       def emacs_behaviour_initialize(event_manager)
+        emacs_movement_initialize(event_manager)
+        emacs_erasing_initialize(event_manager)
+      end
+
+      def emacs_movement_initialize(event_manager)
         event_manager.bind "\C-f", self, :forward_char
         event_manager.bind Curses::KEY_RIGHT.to_s, self, :forward_char
 
@@ -22,13 +27,15 @@ module Amun
 
         event_manager.bind "\C-e", self, :end_of_line
         event_manager.bind Curses::KEY_END.to_s, self, :end_of_line
+      end
 
+      def emacs_erasing_initialize(event_manager)
         event_manager.bind "\C-d", self, :delete_char
+
         event_manager.bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char # this doesn't work, check linux
         event_manager.bind "\C-?", self, :backward_delete_char # C-? is backspace on mac terminal for some reason
 
         event_manager.bind Curses::Key::DC.to_s, self, :forward_delete_char
-
         event_manager.bind "\C-k", self, :kill_line
         event_manager.bind "\M-d", self, :kill_word
       end
