@@ -1,5 +1,6 @@
 require 'curses'
 require 'singleton'
+require 'forwardable'
 require 'amun/ui/windows/frame'
 require 'amun/event_manager'
 require 'amun/features_loader'
@@ -22,6 +23,12 @@ module Amun
       frame.render
       FeaturesLoader.load
       keyboard_thread.join
+    end
+
+    class << self
+      extend Forwardable
+      def_delegators :instance,
+                     :run, :frame, :"frame="
     end
 
     private
