@@ -1,24 +1,22 @@
+require 'forwardable'
 require 'amun/helpers/colors'
 require 'amun/behaviours/emacs'
 
 module Amun
   module MajorModes
-    # Basic mode that show any IO
+    # Basic mode with emacs defaults
     class Fundamental
+      extend Forwardable
       include Behaviours::Emacs
 
-      def initialize(buffer)
-        @buffer = buffer
+      def_delegator :events, :trigger
 
-        @events = EventManager.new
+      def initialize(buffer)
+        self.buffer = buffer
+        self.events = EventManager.new
 
         emacs_behaviour_initialize(@events)
-
         read_io if buffer.text.nil?
-      end
-
-      def trigger(event)
-        EventManager.join(event, @events)
       end
 
       def render(window)
@@ -37,7 +35,7 @@ module Amun
 
       private
 
-      attr_accessor :buffer
+      attr_accessor :buffer, :events
 
       def read_io
         buffer.text = buffer.io.read
