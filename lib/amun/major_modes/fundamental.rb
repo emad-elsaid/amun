@@ -11,7 +11,7 @@ module Amun
         @buffer = buffer
 
         @events = EventManager.new
-        @events.bind_all self, :event_handler
+
         emacs_behaviour_initialize(@events)
 
         read_io if buffer.text.nil?
@@ -26,26 +26,13 @@ module Amun
         point = buffer.point
 
         window << buffer.text[0...point]
-        window.attron(Helpers::Colors::REVERSE)
 
+        window.attron(Helpers::Colors::REVERSE)
         at_point = buffer.text[point]
         window << (at_point == "\n" || at_point.nil? ? " \n" : at_point)
         window.attroff(Helpers::Colors::REVERSE)
+
         window << buffer.text[(point + 1)..-1]
-      end
-
-      def event_handler(event)
-        return true unless event.is_a? String
-        return true unless event.length == 1
-        return true unless event.valid_encoding?
-
-        case event
-        when /[^[:print:]\n\t]/
-          true
-        else
-          buffer.text.insert(buffer.point, event)
-          buffer.point += 1
-        end
       end
 
       private

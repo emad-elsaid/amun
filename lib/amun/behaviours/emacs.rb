@@ -7,6 +7,8 @@ module Amun
       def emacs_behaviour_initialize(event_manager)
         emacs_movement_initialize(event_manager)
         emacs_erasing_initialize(event_manager)
+
+        event_manager.bind_all self, :insert_char
       end
 
       def emacs_movement_initialize(event_manager)
@@ -38,6 +40,18 @@ module Amun
         event_manager.bind Curses::Key::DC.to_s, self, :forward_delete_char
         event_manager.bind "\C-k", self, :kill_line
         event_manager.bind "\M-d", self, :kill_word
+      end
+
+      def insert_char(char)
+        return true unless char.is_a? String
+        return true unless char.length == 1
+        return true unless char.valid_encoding?
+        return true unless char =~ /[[:print:]\n\t]/
+
+        buffer.text.insert(buffer.point, char)
+        buffer.point += 1
+
+        true
       end
 
       def forward_char(*)
