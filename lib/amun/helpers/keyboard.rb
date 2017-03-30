@@ -7,6 +7,8 @@ module Amun
 
       TIMEOUT = 100
 
+      # get a character from the keyboard
+      # and make sure you detect the meta combination
       def char
         ch = Curses.stdscr.get_char
         Curses.stdscr.timeout = TIMEOUT
