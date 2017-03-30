@@ -48,9 +48,8 @@ module Amun
         chain = []
         while (ch = Helpers::Keyboard.char)
           chain << ch
-          if EventManager.join(chain.join(' '), frame) != EventManager::CHAINED
-            chain.clear
-          end
+          chain.clear if frame.trigger(chain.join(' ')) != EventManager::CHAINED
+          frame.render
         end
       end
     end
