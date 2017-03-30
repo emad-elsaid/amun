@@ -1,4 +1,5 @@
 require 'amun/ui/buffer'
+require 'forwardable'
 
 module Amun
   module UI
@@ -6,6 +7,11 @@ module Amun
       # a window to display any buffer
       # or the current buffer
       class BufferWindow
+        extend Forwardable
+
+        def_delegators :buffer,
+                       :render, :trigger
+
         def initialize(buffer = nil)
           @buffer = buffer
         end
@@ -23,16 +29,6 @@ module Amun
         # get current buffer that this window is rendering
         def buffer
           @buffer || Buffer.current
-        end
-
-        # render buffer
-        def render(window)
-          buffer.render(window)
-        end
-
-        # trigger the event in buffer
-        def trigger(event)
-          buffer.trigger(event)
         end
       end
     end
