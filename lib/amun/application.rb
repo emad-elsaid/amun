@@ -28,7 +28,7 @@ module Amun
     class << self
       extend Forwardable
       def_delegators :instance,
-                     :run, :frame, :"frame="
+                     :run, :frame, :frame=
     end
 
     private
