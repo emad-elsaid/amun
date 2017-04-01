@@ -32,6 +32,8 @@ module Amun
         def render
           render_object_in_window(window, top_window)
           render_object_in_window(bottom_area, bottom_window)
+        rescue StandardError => error
+          handle_exception(error)
         end
 
         private
@@ -45,11 +47,17 @@ module Amun
         end
 
         def top_window
-          @top_window ||= screen.subwin(screen.maxy - 1, screen.maxx, 0, 0)
+          screen.subwin(
+            screen.maxy - bottom_area.height, screen.maxx,
+            screen.begy, screen.begx
+          )
         end
 
         def bottom_window
-          @bottom_window ||= screen.subwin(1, screen.maxx, screen.maxy - 1, 0)
+          screen.subwin(
+            bottom_area.height, screen.maxx,
+            screen.maxy - bottom_area.height, 0
+          )
         end
 
         def render_object_in_window(object, curses_window)
@@ -58,6 +66,7 @@ module Amun
           handle_exception(error)
         ensure
           curses_window.refresh
+          curses_window.close
         end
 
         def handle_exception(e)

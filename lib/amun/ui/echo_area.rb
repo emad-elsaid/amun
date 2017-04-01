@@ -21,6 +21,10 @@ module Amun
         EventManager.join(event, events)
       end
 
+      def height
+        message.strip.count("\n") + 1
+      end
+
       # render the echo area window
       def render(window)
         window.clear

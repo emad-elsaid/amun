@@ -9,7 +9,7 @@ module Amun
     # also it has a major mode responsible update lines and visual lines
     class Buffer
       attr_accessor :name, :io, :text
-      attr_writer :major_mode, :minor_modes, :mode_line, :point, :mark
+      attr_writer :major_mode, :events, :minor_modes, :mode_line, :point, :mark
 
       def initialize(name, io = StringIO.new)
         self.io = io
@@ -17,12 +17,16 @@ module Amun
         self.point = 0
       end
 
+      def events
+        @events ||= EventManager.new
+      end
+
       def major_mode
         @major_mode ||= MajorModes::Fundamental.new(self)
       end
 
       def mode_line
-        @mode_line ||= UI::ModeLine.new(self)
+        @mode_line ||= ModeLine.new(self)
       end
 
       def minor_modes
@@ -46,13 +50,19 @@ module Amun
       def trigger(event)
         EventManager.join(
           event,
-          *(minor_modes + [major_mode])
+          *([events] + minor_modes.to_a + [major_mode])
         )
       end
 
       def render(window)
-        major_mode_window = window.subwin(window.maxy - 1, window.maxx, 0, 0)
-        mode_line_window = window.subwin(1, window.maxx, window.maxy - 1, 0)
+        major_mode_window = window.subwin(
+          window.maxy - 1, window.maxx,
+          window.begy, window.begx
+        )
+        mode_line_window = window.subwin(
+          1, window.maxx,
+          window.begy + window.maxy - 1, window.begx
+        )
 
         major_mode.render(major_mode_window)
         mode_line.render(mode_line_window)
