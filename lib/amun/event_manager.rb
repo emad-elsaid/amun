@@ -172,7 +172,7 @@ module Amun
 
     def add_chain(event)
       return unless event.to_s.include?(' ')
-      event.to_s.split(" ").inject("") do |chain, evt|
+      event.to_s.split(" ")[0...-1].inject("") do |chain, evt|
         new_chain = (chain + " " + evt).strip
         @chains << new_chain
         new_chain
