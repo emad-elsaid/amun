@@ -23,3 +23,12 @@ def find_file(*)
 end
 
 Amun::EventManager.bind "\C-x \C-f", nil, :find_file
+
+unless ARGV.empty?
+  ARGV.each do |file|
+    file_buffer = Amun::UI::Buffer.new(file, File.open(file, 'r+'))
+    Amun::UI::Buffer.instances << file_buffer
+    Amun::UI::Buffer.current = file_buffer
+    Amun::Application.frame.render
+  end
+end

@@ -59,6 +59,8 @@ module Amun
           window.maxy - 1, window.maxx,
           window.begy, window.begx
         )
+        major_mode_window.scrollok(true)
+
         mode_line_window = window.subwin(
           1, window.maxx,
           window.begy + window.maxy - 1, window.begx
