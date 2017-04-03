@@ -3,12 +3,12 @@ module Amun
     module ModeLineSegments
       # display buffer name in modeline
       class BufferName
-        def initialize(buffer)
-          @buffer = buffer
+        def initialize(window)
+          @window = window
         end
 
         def render(*)
-          "#{@buffer.name} ".colorize(:mode_line)
+          "#{@window.buffer.name} ".colorize(:mode_line)
         end
       end
     end

@@ -1,7 +1,6 @@
 require 'set'
 require 'amun/event_manager'
 require 'amun/major_modes/fundamental'
-require 'amun/ui/mode_line'
 
 module Amun
   module UI
@@ -9,7 +8,7 @@ module Amun
     # also it has a major mode responsible update lines and visual lines
     class Buffer
       attr_accessor :name, :io, :text
-      attr_writer :major_mode, :events, :minor_modes, :mode_line, :point, :mark
+      attr_writer :major_mode, :events, :minor_modes, :point, :mark
 
       def initialize(name, io = StringIO.new)
         self.io = io
@@ -23,10 +22,6 @@ module Amun
 
       def major_mode
         @major_mode ||= MajorModes::Fundamental.new(self)
-      end
-
-      def mode_line
-        @mode_line ||= ModeLine.new(self)
       end
 
       def minor_modes
@@ -52,25 +47,6 @@ module Amun
           event,
           *([events] + minor_modes.to_a + [major_mode])
         )
-      end
-
-      def render(window)
-        major_mode_window = window.subwin(
-          window.maxy - 1, window.maxx,
-          window.begy, window.begx
-        )
-        major_mode_window.scrollok(true)
-
-        mode_line_window = window.subwin(
-          1, window.maxx,
-          window.begy + window.maxy - 1, window.begx
-        )
-
-        major_mode.render(major_mode_window)
-        mode_line.render(mode_line_window)
-      ensure
-        major_mode_window.close
-        mode_line_window.close
       end
 
       class << self

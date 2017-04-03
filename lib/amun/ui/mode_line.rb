@@ -5,17 +5,17 @@ require 'amun/ui/mode_line_segments/buffer_name'
 module Amun
   module UI
     # a line of small segments that display
-    # information about the current buffer,
+    # information about the current window,
     # like mode name, line number, buffer name...etc
     class ModeLine
       attr_reader :left_segments, :right_segments
 
-      def initialize(buffer)
-        @buffer = buffer
+      def initialize(window)
+        @window = window
         @right_segments = []
         @left_segments = [
-          ModeLineSegments::BufferName.new(buffer),
-          ModeLineSegments::MajorMode.new(buffer)
+          ModeLineSegments::BufferName.new(window),
+          ModeLineSegments::MajorMode.new(window)
         ]
 
         Helpers::Colors.register_default(:mode_line, 0, 255)

@@ -21,6 +21,7 @@ module Amun
 
       def render(window)
         window.clear
+        window.scrollok(true)
         point = buffer.point
 
         window << buffer.text[0...point]
