@@ -1,19 +1,19 @@
 require 'amun/event_manager'
-require 'amun/ui/buffer'
-require 'amun/ui/mini_buffer'
+require 'amun/buffer'
+require 'amun/mini_buffer'
 
-class FindFileBuffer < Amun::UI::MiniBuffer
+class FindFileBuffer < Amun::MiniBuffer
   def initialize
     super 'Open file: '
     self.text = Dir.pwd
-    self.point = text.size
+    self.point = text.length
     events.bind "done", self, :open_file
   end
 
   def open_file(*)
-    file_buffer = Amun::UI::Buffer.new(text, File.open(text, 'r+'))
-    Amun::UI::Buffer.instances << file_buffer
-    Amun::UI::Buffer.current = file_buffer
+    file_buffer = Amun::Buffer.new(text, File.open(text, 'r+'))
+    Amun::Buffer.instances << file_buffer
+    Amun::Buffer.current = file_buffer
   end
 end
 
@@ -26,9 +26,9 @@ Amun::EventManager.bind "\C-x \C-f", nil, :find_file
 
 unless ARGV.empty?
   ARGV.each do |file|
-    file_buffer = Amun::UI::Buffer.new(file, File.open(file, 'r+'))
-    Amun::UI::Buffer.instances << file_buffer
-    Amun::UI::Buffer.current = file_buffer
+    file_buffer = Amun::Buffer.new(file, File.open(file, 'r+'))
+    Amun::Buffer.instances << file_buffer
+    Amun::Buffer.current = file_buffer
     Amun::Application.frame.render
   end
 end

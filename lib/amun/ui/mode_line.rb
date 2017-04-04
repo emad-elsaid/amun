@@ -21,22 +21,22 @@ module Amun
         Helpers::Colors.register_default(:mode_line, 0, 255)
       end
 
-      def render(window)
-        right_output = render_segments(right_segments, window)
-        left_output = render_segments(left_segments, window)
+      def render(curses_window)
+        right_output = render_segments(right_segments, curses_window)
+        left_output = render_segments(left_segments, curses_window)
 
         size = (right_output + left_output).map(&:size).inject(0, :+)
-        empty_space = [0, window.maxx - size].max
+        empty_space = [0, curses_window.maxx - size].max
         filler = (' ' * empty_space).colorize(:mode_line)
 
-        Helpers::Colors.print(window, *left_output, filler, *right_output)
+        Helpers::Colors.print(curses_window, *left_output, filler, *right_output)
       end
 
       private
 
-      def render_segments(segments, window)
+      def render_segments(segments, curses_window)
         segments.map do |segment|
-          segment.render(window)
+          segment.render
         end.flatten
       end
     end

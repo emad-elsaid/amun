@@ -7,7 +7,7 @@ module Amun
           @window = window
         end
 
-        def render(*)
+        def render
           mode = @window.buffer.major_mode.class.name.split('::').last
           "(#{mode}) ".colorize(:mode_line)
         end

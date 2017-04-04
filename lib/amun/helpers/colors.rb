@@ -79,16 +79,16 @@ module Amun
       # type(Colors::Constant):: a text style constant
       # defined in Colors, that manipulate the text style
       # (Bold, Underline, Invert colors)
-      def use(window, name, type = NORMAL)
+      def use(curses_window, name, type = NORMAL)
         index = COLORS.key?(name) ? COLORS[name] : 0
-        window.attron(Curses.color_pair(index) | type)
+        curses_window.attron(Curses.color_pair(index) | type)
       end
 
       # print string in Curses window in the choosen color and style
-      def print(window, *strings)
+      def print(curses_window, *strings)
         strings.each do |string|
-          use(window, string.color || DEFAULT_COLOR, string.style || NORMAL)
-          window << string
+          use(curses_window, string.color || DEFAULT_COLOR, string.style || NORMAL)
+          curses_window << string
         end
       end
     end

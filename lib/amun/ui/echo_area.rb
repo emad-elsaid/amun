@@ -1,4 +1,4 @@
-require 'amun/ui/buffer'
+require 'amun/buffer'
 
 module Amun
   module UI
@@ -26,9 +26,9 @@ module Amun
       end
 
       # render the echo area window
-      def render(window)
-        window.clear
-        window << message
+      def render(curses_window)
+        curses_window.clear
+        curses_window << message
         update_last_messages_size
       end
 
@@ -39,7 +39,7 @@ module Amun
       end
 
       def update_last_messages_size
-        @last_messages_size = Buffer.messages.text.size
+        @last_messages_size = Buffer.messages.text.length
       end
     end
   end

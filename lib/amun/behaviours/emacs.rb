@@ -1,4 +1,4 @@
-require 'amun/ui/buffer'
+require 'amun/buffer'
 require 'curses'
 
 module Amun
@@ -66,8 +66,8 @@ module Amun
 
       def next_line(*)
         line_begin = buffer.text.rindex("\n", buffer.point) || 0
-        line_end = buffer.text.index("\n", buffer.point + 1) || buffer.text.size + 1
-        next_line_end = buffer.text.index("\n", line_end + 1) || buffer.text.size + 1
+        line_end = buffer.text.index("\n", buffer.point + 1) || buffer.text.length + 1
+        next_line_end = buffer.text.index("\n", line_end + 1) || buffer.text.length + 1
         point_offset = buffer.point - line_begin
         buffer.point = [line_end + point_offset, next_line_end].min
         true
@@ -131,8 +131,8 @@ module Amun
 
       # TODO should move text to kill ring
       def kill_word(*)
-        first_non_letter = buffer.text.index(/\P{L}/, buffer.point) || buffer.text.size
-        word_beginning = buffer.text.index(/\p{L}/, first_non_letter) || buffer.text.size
+        first_non_letter = buffer.text.index(/\P{L}/, buffer.point) || buffer.text.length
+        word_beginning = buffer.text.index(/\p{L}/, first_non_letter) || buffer.text.length
         buffer.text.slice!(buffer.point...word_beginning)
         true
       end

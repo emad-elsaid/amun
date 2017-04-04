@@ -17,7 +17,7 @@ module Amun
 
         return ch if modified_char.nil?
         return "#{ch} #{modified_char}" if modified_char.is_a? Numeric
-        return "#{ch} #{modified_char}" if modified_char.size > 1
+        return "#{ch} #{modified_char}" if modified_char.length > 1
 
         begin
           eval "?\\M-#{modified_char}"

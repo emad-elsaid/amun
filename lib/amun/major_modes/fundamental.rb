@@ -19,19 +19,18 @@ module Amun
         read_io if buffer.text.nil?
       end
 
-      def render(window)
-        window.clear
-        window.scrollok(true)
+      def render(curses_window)
+        curses_window.clear
         point = buffer.point
 
-        window << buffer.text[0...point]
+        curses_window << buffer.text[0...point]
 
-        window.attron(Helpers::Colors::REVERSE)
+        curses_window.attron(Helpers::Colors::REVERSE)
         at_point = buffer.text[point]
-        window << (at_point == "\n" || at_point.nil? ? " \n" : at_point)
-        window.attroff(Helpers::Colors::REVERSE)
+        curses_window << (at_point == "\n" || at_point.nil? ? " \n" : at_point)
+        curses_window.attroff(Helpers::Colors::REVERSE)
 
-        window << buffer.text[(point + 1)..-1]
+        curses_window << buffer.text[(point + 1)..-1]
       end
 
       private

@@ -1,4 +1,4 @@
-require 'amun/ui/buffer'
+require 'amun/buffer'
 require 'amun/ui/mode_line'
 require 'forwardable'
 
@@ -18,9 +18,9 @@ module Amun
           @buffer = buffer
         end
 
-        def render(window)
-          major_mode_area = major_mode_window(window)
-          mode_line_area = mode_line_window(window)
+        def render(curses_window)
+          major_mode_area = major_mode_window(curses_window)
+          mode_line_area = mode_line_window(curses_window)
 
           buffer.major_mode.render(major_mode_area)
           mode_line.render(mode_line_area)
@@ -50,17 +50,19 @@ module Amun
 
         private
 
-        def major_mode_window(window)
-          window.subwin(
-            window.maxy - 1, window.maxx,
-            window.begy, window.begx
+        def major_mode_window(curses_window)
+          win = curses_window.subwin(
+            curses_window.maxy - 1, curses_window.maxx,
+            curses_window.begy, curses_window.begx
           )
+          win.scrollok(true)
+          win
         end
 
-        def mode_line_window(window)
-          window.subwin(
-            1, window.maxx,
-            window.begy + window.maxy - 1, window.begx
+        def mode_line_window(curses_window)
+          curses_window.subwin(
+            1, curses_window.maxx,
+            curses_window.begy + curses_window.maxy - 1, curses_window.begx
           )
         end
       end
