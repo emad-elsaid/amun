@@ -55,7 +55,6 @@ module Amun
             curses_window.maxy - 1, curses_window.maxx,
             curses_window.begy, curses_window.begx
           )
-          win.scrollok(true)
           win
         end
 

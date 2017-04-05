@@ -21,6 +21,8 @@ module Amun
 
       def render(curses_window)
         curses_window.clear
+        curses_window.scrollok(true)
+
         point = buffer.point
 
         curses_window << buffer.text[0...point]

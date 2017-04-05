@@ -23,7 +23,7 @@ module Amun
       end
 
       def height
-        message.strip.count("\n") + 1
+        message.count("\n") + 1
       end
 
       def render(curses_window)
@@ -32,10 +32,14 @@ module Amun
         update_last_messages_size
       end
 
+      def self.log(message)
+        Buffer.messages.text << message
+      end
+
       private
 
       def message
-        Buffer.messages.text[@last_messages_size..-1]
+        Buffer.messages.text[@last_messages_size..-1].strip
       end
 
       def update_last_messages_size
