@@ -5,8 +5,8 @@ require 'amun/mini_buffer'
 class FindFileBuffer < Amun::MiniBuffer
   def initialize
     super 'Open file: '
-    self.text = Dir.pwd
-    self.point = text.length
+    self << Dir.pwd
+    self.point = length
     events.bind "done", self, :open_file
   end
 

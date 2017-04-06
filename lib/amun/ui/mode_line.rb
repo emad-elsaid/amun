@@ -22,8 +22,8 @@ module Amun
       end
 
       def render(curses_window)
-        right_output = render_segments(right_segments, curses_window)
-        left_output = render_segments(left_segments, curses_window)
+        right_output = render_segments(right_segments)
+        left_output = render_segments(left_segments)
 
         size = (right_output + left_output).map(&:size).inject(0, :+)
         empty_space = [0, curses_window.maxx - size].max
@@ -34,10 +34,8 @@ module Amun
 
       private
 
-      def render_segments(segments, curses_window)
-        segments.map do |segment|
-          segment.render
-        end.flatten
+      def render_segments(segments)
+        segments.map(&:render).flatten
       end
     end
   end

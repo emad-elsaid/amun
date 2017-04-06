@@ -16,7 +16,7 @@ module Amun
         self.events = EventManager.new
 
         emacs_behaviour_initialize(@events)
-        read_io if buffer.text.nil?
+        read_io if buffer.empty?
       end
 
       def render(curses_window)
@@ -25,14 +25,20 @@ module Amun
 
         point = buffer.point
 
-        curses_window << buffer.text[0...point]
+        curses_window << buffer[0...point]
 
         curses_window.attron(Helpers::Colors::REVERSE)
-        at_point = buffer.text[point]
-        curses_window << (at_point == "\n" || at_point.nil? ? " \n" : at_point)
+        at_point = buffer[point]
+        curses_window << case at_point
+                         when "\n"
+                           " \n"
+                         when nil
+                           " "
+                         else
+                           at_point
+                         end
         curses_window.attroff(Helpers::Colors::REVERSE)
-
-        curses_window << buffer.text[(point + 1)..-1]
+        curses_window << buffer[(point + 1)..-1]
       end
 
       private
@@ -40,7 +46,7 @@ module Amun
       attr_accessor :buffer, :events
 
       def read_io
-        buffer.text = buffer.io.read
+        buffer << buffer.io.read
       end
     end
   end

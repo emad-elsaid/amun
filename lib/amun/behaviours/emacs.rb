@@ -48,7 +48,7 @@ module Amun
         return true unless char.valid_encoding?
         return true unless char =~ /[[:print:]\n\t]/
 
-        buffer.text.insert(buffer.point, char)
+        buffer.insert(buffer.point, char)
         buffer.point += 1
 
         true
@@ -65,17 +65,17 @@ module Amun
       end
 
       def next_line(*)
-        line_begin = buffer.text.rindex("\n", buffer.point) || 0
-        line_end = buffer.text.index("\n", buffer.point + 1) || buffer.text.length + 1
-        next_line_end = buffer.text.index("\n", line_end + 1) || buffer.text.length + 1
+        line_begin = buffer.rindex("\n", buffer.point) || 0
+        line_end = buffer.index("\n", buffer.point + 1) || buffer.length + 1
+        next_line_end = buffer.index("\n", line_end + 1) || buffer.length + 1
         point_offset = buffer.point - line_begin
         buffer.point = [line_end + point_offset, next_line_end].min
         true
       end
 
       def previous_line(*)
-        line_begin = buffer.text.rindex("\n", buffer.point) || 0
-        previous_line_begin = buffer.text.rindex("\n", line_begin - 1) || 0
+        line_begin = buffer.rindex("\n", buffer.point) || 0
+        previous_line_begin = buffer.rindex("\n", line_begin - 1) || 0
         point_offset = buffer.point - line_begin
         buffer.point = [previous_line_begin + point_offset, line_begin - 1].min
         true
@@ -84,24 +84,24 @@ module Amun
       def beginning_of_line(*)
         point = buffer.point
         return true if point.zero?
-        return true if buffer.text[point - 1] == "\n"
+        return true if buffer[point - 1] == "\n"
 
-        line_start = buffer.text.rindex("\n", point - 1)
+        line_start = buffer.rindex("\n", point - 1)
         buffer.point = line_start.nil? ? 0 : line_start + 1
         true
       end
 
       def end_of_line(*)
         point = buffer.point
-        return true if buffer.text[point] == "\n"
+        return true if buffer[point] == "\n"
 
-        line_end = buffer.text.index("\n", point)
-        buffer.point = line_end || buffer.text.length
+        line_end = buffer.index("\n", point)
+        buffer.point = line_end || buffer.length
         true
       end
 
       def delete_char(*)
-        buffer.text.slice!(buffer.point)
+        buffer.slice!(buffer.point)
         true
       end
 
@@ -109,7 +109,7 @@ module Amun
         return true if buffer.point.zero?
 
         buffer.point -= 1
-        buffer.text.slice!(buffer.point)
+        buffer.slice!(buffer.point)
         true
       end
 
@@ -119,21 +119,21 @@ module Amun
 
       # TODO should move text to kill ring
       def kill_line(*)
-        if buffer.text[buffer.point] == "\n"
-          buffer.text.slice!(buffer.point)
+        if buffer[buffer.point] == "\n"
+          buffer.slice!(buffer.point)
           return true
         end
 
-        line_end = buffer.text.index(/$/, buffer.point)
-        buffer.text.slice!(buffer.point...line_end)
+        line_end = buffer.index(/$/, buffer.point)
+        buffer.slice!(buffer.point, line_end - buffer.point)
         true
       end
 
       # TODO should move text to kill ring
       def kill_word(*)
-        first_non_letter = buffer.text.index(/\P{L}/, buffer.point) || buffer.text.length
-        word_beginning = buffer.text.index(/\p{L}/, first_non_letter) || buffer.text.length
-        buffer.text.slice!(buffer.point...word_beginning)
+        first_non_letter = buffer.index(/\P{L}/, buffer.point) || buffer.length
+        word_beginning = buffer.index(/\p{L}/, first_non_letter) || buffer.length
+        buffer.slice!(buffer.point, word_beginning - buffer.point)
         true
       end
 
@@ -142,9 +142,9 @@ module Amun
       #
       # TODO should move text to kill ring
       def backward_kill_word(*)
-        first_letter_backward = buffer.text.rindex(/\p{L}/, buffer.point) || 0
-        first_non_letter_before_word = buffer.text.rindex(/\P{L}/, first_letter_backward) || -1
-        buffer.text.slice!(first_non_letter_before_word + 1 .. buffer.point)
+        first_letter_backward = buffer.rindex(/\p{L}/, buffer.point) || 0
+        first_non_letter_before_word = buffer.rindex(/\P{L}/, first_letter_backward) || -1
+        buffer.slice!(first_non_letter_before_word + 1 .. buffer.point)
         true
       end
     end

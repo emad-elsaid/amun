@@ -33,17 +33,17 @@ module Amun
       end
 
       def self.log(message)
-        Buffer.messages.text << message
+        Buffer.messages << message
       end
 
       private
 
       def message
-        Buffer.messages.text[@last_messages_size..-1].strip
+        Buffer.messages[@last_messages_size..-1].strip
       end
 
       def update_last_messages_size
-        @last_messages_size = Buffer.messages.text.length
+        @last_messages_size = Buffer.messages.length
       end
     end
   end

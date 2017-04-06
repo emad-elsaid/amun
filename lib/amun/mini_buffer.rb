@@ -41,13 +41,13 @@ module Amun
     def cancel(*)
       detach
       events.trigger("cancel")
-      self.text = nil
+      clear
     end
 
     def done(*)
       detach
       events.trigger("done")
-      self.text = nil
+      clear
     end
 
     private
