@@ -1,4 +1,3 @@
-require 'amun/application'
 require 'amun/windows/base'
 require 'amun/buffer'
 require 'amun/windows/text_renderer'
@@ -24,7 +23,7 @@ module Amun
         bind "done", self, :exec_done_block
       end
 
-      def attach(frame = Application.frame)
+      def attach(frame)
         self.size = Rect.new(
           top: frame.top + frame.height - 1,
           left: frame.left,
