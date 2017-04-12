@@ -3,15 +3,14 @@ require 'amun/buffer'
 require 'amun/windows/mini_buffer_window'
 
 def find_file(*)
-  buffer_window = Amun::Windows::MiniBufferWindow.new('Open file: ', Dir.pwd) do |window|
+  Amun::Windows::MiniBufferWindow.new('Open file: ', Dir.pwd) do |window|
     file_path = window.buffer.to_s
 
     file_buffer = Amun::Buffer.new(file_path, File.open(file_path, 'r+'))
     Amun::Buffer.instances << file_buffer
     Amun::Buffer.current = file_buffer
-  end
+  end.attach
 
-  buffer_window.attach
   true
 end
 

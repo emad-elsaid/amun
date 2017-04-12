@@ -49,7 +49,7 @@ module Amun
     def_delegators :text,
                    :length, :size, :[],
                    :count, :index, :rindex,
-                   :to_s, :empty?
+                   :empty?
 
     def insert(index, other_str)
       text.insert(index, other_str)
@@ -65,6 +65,10 @@ module Amun
 
     def clear
       slice!(0, length)
+    end
+
+    def to_s
+      text.dup
     end
 
     class << self

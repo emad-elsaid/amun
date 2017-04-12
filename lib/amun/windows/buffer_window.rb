@@ -19,13 +19,13 @@ module Amun
       def initialize(size, buffer = nil)
         super(size)
         @buffer = buffer
-        @mode_line = ModeLine.new(mode_line_size, self)
+        @mode_line = ModeLine.new(mode_line_size)
         @text_renderer = TextRenderer.new(text_renderer_size)
       end
 
       def render
         @text_renderer.render(buffer)
-        @mode_line.render
+        @mode_line.render(buffer)
       end
 
       # set a specific buffer to be displayed in this window

@@ -11,21 +11,20 @@ module Amun
     class ModeLine < Base
       attr_reader :left_segments, :right_segments
 
-      def initialize(size, window)
+      def initialize(size)
         super(size)
-        @window = window
         @right_segments = []
         @left_segments = [
-          ModeLineSegments::BufferName.new(window),
-          ModeLineSegments::MajorMode.new(window)
+          ModeLineSegments::BufferName.new,
+          ModeLineSegments::MajorMode.new
         ]
 
         Helpers::Colors.register_default(:mode_line, 0, 255)
       end
 
-      def render
-        right_output = render_segments(right_segments)
-        left_output = render_segments(left_segments)
+      def render(buffer)
+        right_output = render_segments(right_segments, buffer)
+        left_output = render_segments(left_segments, buffer)
 
         size = (right_output + left_output).map(&:size).inject(0, :+)
         empty_space = [0, curses_window.maxx - size].max
@@ -38,8 +37,10 @@ module Amun
 
       private
 
-      def render_segments(segments)
-        segments.map(&:render).flatten
+      def render_segments(segments, buffer)
+        segments.map do |segment|
+          segment.render(buffer)
+        end.flatten
       end
     end
   end
