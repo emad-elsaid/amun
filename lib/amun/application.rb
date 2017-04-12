@@ -1,7 +1,7 @@
 require 'curses'
 require 'singleton'
 require 'forwardable'
-require 'amun/ui/windows/frame'
+require 'amun/windows/frame'
 require 'amun/event_manager'
 require 'amun/features_loader'
 require 'amun/helpers/keyboard'
@@ -15,7 +15,7 @@ module Amun
     attr_writer :frame
 
     def frame
-      @frame ||= UI::Windows::Frame.new
+      @frame ||= Windows::Frame.new
     end
 
     def run

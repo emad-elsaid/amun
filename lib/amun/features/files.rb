@@ -1,24 +1,17 @@
 require 'amun/event_manager'
 require 'amun/buffer'
-require 'amun/mini_buffer'
+require 'amun/windows/mini_buffer_window'
 
-class FindFileBuffer < Amun::MiniBuffer
-  def initialize
-    super 'Open file: '
-    self << Dir.pwd
-    self.point = length
-    events.bind "done", self, :open_file
-  end
+def find_file(*)
+  buffer_window = Amun::Windows::MiniBufferWindow.new('Open file: ', Dir.pwd) do |window|
+    file_path = window.buffer.to_s
 
-  def open_file(*)
-    file_buffer = Amun::Buffer.new(text, File.open(text, 'r+'))
+    file_buffer = Amun::Buffer.new(file_path, File.open(file_path, 'r+'))
     Amun::Buffer.instances << file_buffer
     Amun::Buffer.current = file_buffer
   end
-end
 
-def find_file(*)
-  FindFileBuffer.new.attach
+  buffer_window.attach
   true
 end
 

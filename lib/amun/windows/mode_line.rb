@@ -1,16 +1,18 @@
+require 'amun/windows/base'
 require 'amun/helpers/colors'
-require 'amun/ui/mode_line_segments/major_mode'
-require 'amun/ui/mode_line_segments/buffer_name'
+require 'amun/mode_line_segments/major_mode'
+require 'amun/mode_line_segments/buffer_name'
 
 module Amun
-  module UI
+  module Windows
     # a line of small segments that display
     # information about the current window,
     # like mode name, line number, buffer name...etc
-    class ModeLine
+    class ModeLine < Base
       attr_reader :left_segments, :right_segments
 
-      def initialize(window)
+      def initialize(size, window)
+        super(size)
         @window = window
         @right_segments = []
         @left_segments = [
@@ -21,7 +23,7 @@ module Amun
         Helpers::Colors.register_default(:mode_line, 0, 255)
       end
 
-      def render(curses_window)
+      def render
         right_output = render_segments(right_segments)
         left_output = render_segments(left_segments)
 
@@ -29,7 +31,9 @@ module Amun
         empty_space = [0, curses_window.maxx - size].max
         filler = (' ' * empty_space).colorize(:mode_line)
 
+        curses_window.clear
         Helpers::Colors.print(curses_window, *left_output, filler, *right_output)
+        curses_window.refresh
       end
 
       private

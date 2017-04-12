@@ -1,39 +1,23 @@
+require 'amun/windows/base'
 require 'amun/buffer'
-require 'forwardable'
 
 module Amun
-  module UI
+  module Windows
     # a line that is rendered by default at the end on the screen
     # takes the whole width of screen
     # should be linked to \*messages\* memory buffer and display new messages
     # in the buffer text
-    class EchoArea
-      extend Forwardable
-
-      def_delegator :events, :trigger
-
-      attr_writer :events
-
-      def events
-        @events ||= EventManager.new
-      end
-
-      def initialize
+    class EchoArea < Base
+      def initialize(size)
+        super(size)
         @last_messages_size = 0
       end
 
-      def height
-        message.count("\n") + 1
-      end
-
-      def render(curses_window)
+      def render
         curses_window.clear
         curses_window << message
+        curses_window.refresh
         update_last_messages_size
-      end
-
-      def self.log(message)
-        Buffer.messages << message
       end
 
       private

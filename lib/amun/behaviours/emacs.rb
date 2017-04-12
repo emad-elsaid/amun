@@ -4,42 +4,42 @@ require 'curses'
 module Amun
   module Behaviours
     module Emacs
-      def emacs_behaviour_initialize(event_manager)
-        emacs_movement_initialize(event_manager)
-        emacs_erasing_initialize(event_manager)
+      def emacs_behaviour_initialize
+        emacs_movement_initialize
+        emacs_erasing_initialize
 
-        event_manager.bind_all self, :insert_char
+        bind_all self, :insert_char
       end
 
-      def emacs_movement_initialize(event_manager)
-        event_manager.bind "\C-f", self, :forward_char
-        event_manager.bind Curses::KEY_RIGHT.to_s, self, :forward_char
+      def emacs_movement_initialize
+        bind "\C-f", self, :forward_char
+        bind Curses::KEY_RIGHT.to_s, self, :forward_char
 
-        event_manager.bind "\C-b", self, :backward_char
-        event_manager.bind Curses::KEY_LEFT.to_s, self, :backward_char
+        bind "\C-b", self, :backward_char
+        bind Curses::KEY_LEFT.to_s, self, :backward_char
 
-        event_manager.bind "\C-n", self, :next_line
-        event_manager.bind Curses::KEY_DOWN.to_s, self, :next_line
+        bind "\C-n", self, :next_line
+        bind Curses::KEY_DOWN.to_s, self, :next_line
 
-        event_manager.bind "\C-p", self, :previous_line
-        event_manager.bind Curses::KEY_UP.to_s, self, :previous_line
+        bind "\C-p", self, :previous_line
+        bind Curses::KEY_UP.to_s, self, :previous_line
 
-        event_manager.bind "\C-a", self, :beginning_of_line
-        event_manager.bind Curses::KEY_HOME.to_s, self, :beginning_of_line
+        bind "\C-a", self, :beginning_of_line
+        bind Curses::KEY_HOME.to_s, self, :beginning_of_line
 
-        event_manager.bind "\C-e", self, :end_of_line
-        event_manager.bind Curses::KEY_END.to_s, self, :end_of_line
+        bind "\C-e", self, :end_of_line
+        bind Curses::KEY_END.to_s, self, :end_of_line
       end
 
-      def emacs_erasing_initialize(event_manager)
-        event_manager.bind "\C-d", self, :delete_char
+      def emacs_erasing_initialize
+        bind "\C-d", self, :delete_char
 
-        event_manager.bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char # this doesn't work, check linux
-        event_manager.bind "\C-?", self, :backward_delete_char # C-? is backspace on mac terminal for some reason
+        bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char # this doesn't work, check linux
+        bind "\C-?", self, :backward_delete_char # C-? is backspace on mac terminal for some reason
 
-        event_manager.bind Curses::Key::DC.to_s, self, :forward_delete_char
-        event_manager.bind "\C-k", self, :kill_line
-        event_manager.bind "\M-d", self, :kill_word
+        bind Curses::Key::DC.to_s, self, :forward_delete_char
+        bind "\C-k", self, :kill_line
+        bind "\M-d", self, :kill_word
       end
 
       def insert_char(char)
