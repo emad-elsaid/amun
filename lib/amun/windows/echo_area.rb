@@ -14,7 +14,7 @@ module Amun
       end
 
       def render
-        curses_window.clear
+        curses_window.erase
         curses_window << message
         curses_window.refresh
         update_last_messages_size

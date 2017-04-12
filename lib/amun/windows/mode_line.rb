@@ -30,7 +30,7 @@ module Amun
         empty_space = [0, curses_window.maxx - size].max
         filler = (' ' * empty_space).colorize(:mode_line)
 
-        curses_window.clear
+        curses_window.erase
         Helpers::Colors.print(curses_window, *left_output, filler, *right_output)
         curses_window.refresh
       end

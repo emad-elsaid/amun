@@ -4,7 +4,7 @@ module Amun
   module Windows
     class TextRenderer < Base
       def render(buffer)
-        curses_window.clear
+        curses_window.erase
         curses_window.scrollok(true)
 
         point = buffer.point

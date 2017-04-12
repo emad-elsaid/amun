@@ -44,7 +44,7 @@ module Amun
       end
 
       def render
-        curses_window.clear
+        curses_window.erase
         curses_window << buffer.name
         curses_window.refresh
         @text_renderer.render(buffer)
