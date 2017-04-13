@@ -34,8 +34,10 @@ module Amun
       def emacs_erasing_initialize
         bind "\C-d", self, :delete_char
 
-        bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char # this doesn't work, check linux
-        bind "\C-?", self, :backward_delete_char # C-? is backspace on mac terminal for some reason
+        # this doesn't work, check linux
+        bind Curses::Key::BACKSPACE.to_s, self, :backward_delete_char
+        # C-? is backspace on mac terminal for some reason
+        bind "\C-?", self, :backward_delete_char
 
         bind Curses::Key::DC.to_s, self, :forward_delete_char
         bind "\C-k", self, :kill_line
@@ -46,7 +48,7 @@ module Amun
         return true unless char.is_a? String
         return true unless char.length == 1
         return true unless char.valid_encoding?
-        return true unless char =~ /[[:print:]\n\t]/
+        return true unless char.match?(/[[:print:]\n\t]/)
 
         buffer.insert(buffer.point, char)
         buffer.point += 1
@@ -117,7 +119,7 @@ module Amun
         delete_char
       end
 
-      # TODO should move text to kill ring
+      # TODO: should move text to kill ring
       def kill_line(*)
         if buffer[buffer.point] == "\n"
           buffer.slice!(buffer.point)
@@ -129,7 +131,7 @@ module Amun
         true
       end
 
-      # TODO should move text to kill ring
+      # TODO: should move text to kill ring
       def kill_word(*)
         first_non_letter = buffer.index(/\P{L}/, buffer.point) || buffer.length
         word_beginning = buffer.index(/\p{L}/, first_non_letter) || buffer.length
@@ -140,11 +142,11 @@ module Amun
       # This should be bound to \M-BACKSPACE or \M-DEL but I think the terminal doesn't send it
       # So the implementation will remain there until we find a way to catch this key
       #
-      # TODO should move text to kill ring
+      # TODO: should move text to kill ring
       def backward_kill_word(*)
         first_letter_backward = buffer.rindex(/\p{L}/, buffer.point) || 0
         first_non_letter_before_word = buffer.rindex(/\P{L}/, first_letter_backward) || -1
-        buffer.slice!(first_non_letter_before_word + 1 .. buffer.point)
+        buffer.slice!(first_non_letter_before_word + 1..buffer.point)
         true
       end
     end

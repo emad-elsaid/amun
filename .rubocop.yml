@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.0
   Exclude:
     - 'test/**/*'
     - '*.gemspec'
@@ -8,4 +9,8 @@ Style/FrozenStringLiteralComment:
 Style/StringLiterals:
   Enabled: false
 Style/WordArray:
+  Enabled: false
+Metrics/LineLength:
+  Max: 120
+Security/Eval:
   Enabled: false

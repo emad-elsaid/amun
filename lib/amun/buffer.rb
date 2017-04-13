@@ -23,14 +23,14 @@ module Amun
 
     attr_writer :point
     def point
-      return 0 if @point < 0
+      return 0 if @point.negative?
       return length if @point > length
       @point
     end
 
     attr_writer :mark
     def mark
-      return 0 if @mark < 0
+      return 0 if @mark.negative?
       return length if @mark > length
       @mark
     end
