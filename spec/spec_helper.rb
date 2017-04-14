@@ -15,6 +15,8 @@ end
 
 RSpec.configure do |c|
   c.before(:example) do
+    allow(Curses).to receive(:init_pairs)
+
     window = instance_double('Curses::Window')
     class_double('Curses', stdscr: window).as_stubbed_const(transfer_nested_constants: true)
     class_double('Curses::Window').as_stubbed_const(transfer_nested_constants: true)
