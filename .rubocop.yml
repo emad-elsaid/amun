@@ -12,5 +12,5 @@ Style/WordArray:
   Enabled: false
 Metrics/LineLength:
   Max: 120
-Security/Eval:
+Lint/Eval:
   Enabled: false
