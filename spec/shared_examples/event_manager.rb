@@ -7,8 +7,8 @@ shared_examples 'event manager' do
 
   let(:target) { double(public_method: true) }
   it 'bind events and execute it when triggered' do
-    subject.bind(:event, target, :public_method)
-    expect(target).to receive(:public_method).with(:event)
-    subject.trigger(:event)
+    subject.bind('event', target, :public_method)
+    expect(target).to receive(:public_method).with('event')
+    subject.trigger('event')
   end
 end

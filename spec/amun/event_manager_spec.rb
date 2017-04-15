@@ -16,7 +16,7 @@ describe Amun::EventManager do
       end
 
       it 'raise error if method does not exists' do
-        expect { subject.bind(:event, target, :undefined_method) }.to raise_error ArgumentError
+        expect { subject.bind('event', target, :undefined_method) }.to raise_error ArgumentError
       end
     end
 
