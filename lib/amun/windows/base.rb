@@ -4,6 +4,11 @@ require 'curses'
 
 module Amun
   module Windows
+    # based on amun object, means it has event manager inside
+    # and respond to all event manager methods (bind, undind, trigger...etc)
+    # and has a size (Rect instance), it also expose the methods of the size
+    # to the public, it also creates a subwindow from the curses standard screen
+    # and resizes it whenever you set a new (size) value
     class Base < Object
       extend Forwardable
 
@@ -16,6 +21,9 @@ module Amun
         @curses_window = Curses.stdscr.subwin(height, width, top, left)
       end
 
+      # change the object size
+      # the internal curses window will be
+      # resized and moved along with it
       def size=(size)
         @size = size
         resize

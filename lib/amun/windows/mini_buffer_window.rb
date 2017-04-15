@@ -5,6 +5,23 @@ require 'amun/primitives/rect'
 
 module Amun
   module Windows
+    # a minibuffer that when attached will replace the frame
+    # echo area and display one line with a label (buffer name)
+    # and the value typed by the user (buffer content)
+    # it will fire 2 events, done and cancel, you can listen
+    # on them to do stuff with the input data,
+    # also after both events the buffer will be cleared
+    # to allow you to reattach the same window again and reuse it,
+    # also it allow passing a block to the initializer to execute it
+    # when the user press enter (done event) so you can have a fast usage as such
+    #    MiniBufferWindow.new("Are you sure?[Y/N]", "Y") do |window|
+    #        exit if window.buffer.to_s.downcase == 'y'
+    #    end.attach(Amun::Application.frame)
+    # that will create a minibuffer and attach it to current active frame
+    # also will have a label asking the user "Are you sure?" and a default
+    # value "Y" so user can just press enter, or clear it and press any other character
+    # when user press enter the block will be executed with the window itself as a parameter
+    # so the block will exit amun if the answer to the question is "y"
     class MiniBufferWindow < Base
       attr_reader :buffer
 
@@ -23,7 +40,10 @@ module Amun
         bind "done", self, :exec_done_block
       end
 
+      # attach the mini buffer to a frame of your choice,
+      # that will make it replace the echo are in this frame
       def attach(frame)
+        detach if attached?
         self.size = Rect.new(
           top: frame.top + frame.height - 1,
           left: frame.left,
@@ -34,11 +54,13 @@ module Amun
         @frame.mini_buffer = self
       end
 
+      # deatach the mini buffer from its frame
       def detach
         @frame.mini_buffer = nil
         @frame = nil
       end
 
+      # is the mini buffer currently attached to any frame?
       def attached?
         @frame && @frame.mini_buffer == self
       end

@@ -2,6 +2,11 @@ require 'amun/windows/base'
 
 module Amun
   module Windows
+    # this class renders the buffer in a curses window
+    # makes sure the current character under point is highlighted
+    # highlight the space between point and mark
+    # and make sure to color text and other stuff
+    # consider it the rendering engine of the buffer
     class TextRenderer < Base
       def render(buffer)
         curses_window.erase

@@ -3,7 +3,11 @@ require 'curses'
 
 module Amun
   module Behaviours
+    # Emacs default behaviour module
+    # should be included in the mode
+    # which needs this behaviour as part of it
     module Emacs
+      # attach emacs behaviour to the needed events
       def emacs_behaviour_initialize
         emacs_movement_initialize
         emacs_erasing_initialize
@@ -11,6 +15,7 @@ module Amun
         bind_all self, :insert_char
       end
 
+      # attach the movement events only
       def emacs_movement_initialize
         bind "\C-f", self, :forward_char
         bind Curses::KEY_RIGHT.to_s, self, :forward_char
@@ -31,6 +36,7 @@ module Amun
         bind Curses::KEY_END.to_s, self, :end_of_line
       end
 
+      # attach teh erasing events only
       def emacs_erasing_initialize
         bind "\C-d", self, :delete_char
 

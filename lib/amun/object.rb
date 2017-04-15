@@ -2,6 +2,12 @@ require 'amun/event_manager'
 require 'forwardable'
 
 module Amun
+  # an object wrapping event manager inside it
+  # and exposing every method to the public
+  # this way you can have this object and switch
+  # behavior and states by switching internal event manager
+  # instances, for example you can have a mode that switch between
+  # normal and insert mode (ahem ahmed VIM style)
   class Object
     extend Forwardable
 
