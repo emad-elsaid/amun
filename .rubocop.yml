@@ -1,7 +1,7 @@
 AllCops:
   TargetRubyVersion: 2.0
   Exclude:
-    - 'test/**/*'
+    - 'spec/**/*'
     - '*.gemspec'
   DisplayCopNames: true
 Style/FrozenStringLiteralComment:
@@ -12,5 +12,5 @@ Style/WordArray:
   Enabled: false
 Metrics/LineLength:
   Max: 120
-Lint/Eval:
+Security/Eval:
   Enabled: false
