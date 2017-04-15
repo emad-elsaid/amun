@@ -30,6 +30,7 @@ module Amun
 
     attr_writer :mark
     def mark
+      return nil if @mark.nil?
       return 0 if @mark.negative?
       return length if @mark > length
       @mark

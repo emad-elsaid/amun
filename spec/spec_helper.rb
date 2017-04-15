@@ -9,6 +9,7 @@ ARGV.clear # ARGV is used in a feature to load files
 paths_to_load = ['../shared_examples/**/*.rb', '../../lib/**/*.rb']
 paths_to_load.each do |path|
   Dir.glob(File.expand_path(path, __FILE__)).each do |file|
+    next if file.match?(/features/)
     require file
   end
 end
