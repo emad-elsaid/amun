@@ -25,10 +25,7 @@ module Amun
       def render(buffer)
         right_output = render_segments(right_segments, buffer)
         left_output = render_segments(left_segments, buffer)
-
-        size = (right_output + left_output).map(&:size).inject(0, :+)
-        empty_space = [0, curses_window.maxx - size].max
-        filler = (' ' * empty_space).colorize(:mode_line)
+        filler = empty_space(right_output, left_output)
 
         curses_window.erase
         Helpers::Colors.print(curses_window, *left_output, filler, *right_output)
@@ -36,6 +33,12 @@ module Amun
       end
 
       private
+
+      def empty_space(right_output, left_output)
+        text_size = (right_output + left_output).map(&:size).inject(0, :+)
+        empty_space = [0, width - text_size].max
+        (' ' * empty_space).colorize(:mode_line)
+      end
 
       def render_segments(segments, buffer)
         segments.map do |segment|

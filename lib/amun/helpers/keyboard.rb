@@ -2,6 +2,12 @@ require 'curses'
 
 module Amun
   module Helpers
+    # a module to deal with the keyboard
+    # a complementary module to curses
+    # doesn't intend to replace it
+    # it was created to overcome the shorcoming
+    # of getting a character + meta from the keyboard
+    # in the first place.
     module Keyboard
       module_function
 

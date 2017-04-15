@@ -64,7 +64,7 @@ module Amun
         Rect.new(
           top: top + height - 1,
           left: left,
-          width: left,
+          width: width,
           height: 1
         )
       end

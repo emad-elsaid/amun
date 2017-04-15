@@ -40,7 +40,7 @@ describe Amun::Helpers::Colors do
       let(:max_colors) { 1 }
 
       it 'raise an error if tried to register colors over max' do
-        expect { subject.register(:color1, color1[:fg], color1[:bg]) }.to raise_error Amun::Helpers::MaxColorExceeded
+        expect { subject.register(:color1, color1[:fg], color1[:bg]) }.to raise_error Amun::Helpers::ColorLimitExceeded
       end
     end
   end

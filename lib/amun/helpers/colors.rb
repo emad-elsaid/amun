@@ -2,9 +2,7 @@ require 'curses'
 
 module Amun
   module Helpers
-
-    class MaxColorExceeded < StandardError
-    end
+    class ColorLimitExceeded < StandardError; end
     ##
     # Colors is responsible for registering new colors
     # pairs (foreground and background)
@@ -56,7 +54,7 @@ module Amun
       # background(Number):: background color in current terminal color schema
       def register(name, foreground, background)
         if !COLORS.key?(name) && COLORS.size >= Curses.color_pairs - 1
-          raise MaxColorExceeded, "Can't register color: #{name}, max: #{Curses.color_pairs}"
+          raise ColorLimitExceeded, "Can't register color: #{name}, max: #{Curses.color_pairs}"
         end
 
         Curses.init_pair(COLORS[name], foreground, background)
