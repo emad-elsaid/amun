@@ -19,13 +19,12 @@ module Amun
       end
 
       def execute_last_line(*)
-        result = eval(buffer[buffer.rindex("\n").to_i..-1]).inspect
+        last_line = buffer.lines.last
+        result = eval(last_line)
         buffer << "\n#{result}"
-        buffer.point = buffer.length
-      rescue StandardError => error
-        buffer << error.inspect.to_s
-        buffer << error.backtrace.join("\n")
-        buffer << "\n"
+      rescue StandardError, SyntaxError => error
+        buffer << "\n#{error.inspect}\n#{error.backtrace}"
+      ensure
         buffer.point = buffer.length
       end
 
