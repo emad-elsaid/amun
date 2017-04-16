@@ -11,17 +11,18 @@ module Amun
       def render(buffer)
         curses_window.erase
         curses_window.scrollok(true)
-
-        point = buffer.point
-
-        curses_window << buffer[0...point]
-        render_point(buffer)
-        curses_window << buffer[(point + 1)..-1]
-
+        render_text(buffer)
         curses_window.refresh
       end
 
       private
+
+      def render_text(buffer)
+        point = buffer.point
+        curses_window << buffer[0...point]
+        render_point(buffer)
+        curses_window << buffer[(point + 1)..-1]
+      end
 
       def render_point(buffer)
         curses_window.attron(Helpers::Colors::REVERSE)
