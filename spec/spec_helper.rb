@@ -44,7 +44,8 @@ RSpec.configure do |c|
       attroff: true,
       refresh: true,
       '<<' => true,
-      'keypad=' => true
+      'keypad=' => true,
+      'timeout=' => true
     }.each do |method, return_value|
       allow(window).to receive(method).and_return(return_value)
     end
