@@ -4,6 +4,11 @@ describe Amun::ModeLineSegments::MajorMode do
   subject { Amun::ModeLineSegments::MajorMode.new }
   let(:buffer_name) { 'buffer name' }
   let(:buffer) { Amun::Buffer.new buffer_name }
+  let(:mode) { Amun::MajorModes::Fundamental.new(buffer) }
+
+  before do
+    buffer.major_mode = mode
+  end
 
   it { is_expected.to respond_to :render }
 
