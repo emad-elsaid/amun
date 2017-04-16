@@ -44,8 +44,8 @@ module Amun
         raise ArgumentError, "#{method} : is not a method for #{object}"
       end
 
-      add_chain(event)
-      @bindings[event].unshift(object: object, method: method)
+      add_chain(event.to_s)
+      @bindings[event.to_s].unshift(object: object, method: method)
     end
 
     # remove all occurence of *method* from the *event* stack
