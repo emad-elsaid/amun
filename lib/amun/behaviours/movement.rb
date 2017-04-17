@@ -35,29 +35,38 @@ module Amun
       end
 
       def next_line(*)
-        line_begin = buffer.rindex("\n", buffer.point) || 0
-        line_end = buffer.index("\n", buffer.point + 1) || buffer.length + 1
-        next_line_end = buffer.index("\n", line_end + 1) || buffer.length + 1
-        point_offset = buffer.point - line_begin
-        buffer.point = [line_end + point_offset, next_line_end].min
+        point = buffer.point
+
+        line_begin = buffer.rindex(/^/, point)
+
+        line_end = buffer.index(/$/, point)
+        return true if line_end == buffer.size
+
+        next_line_end = buffer.index(/$/, line_end + 1)
+        point_offset = point - line_begin
+        buffer.point = [line_end + 1 + point_offset, next_line_end].min
         true
       end
 
       def previous_line(*)
-        line_begin = buffer.rindex("\n", buffer.point) || 0
-        previous_line_begin = buffer.rindex("\n", line_begin - 1) || 0
-        point_offset = buffer.point - line_begin
+        point = buffer.point
+
+        line_begin = point == buffer.size && buffer[point - 1] == "\n" ? point : buffer.rindex(/^/, point)
+        return true if line_begin.zero?
+
+        previous_line_begin = buffer.rindex(/^/, line_begin - 1)
+
+        point_offset = point - line_begin
         buffer.point = [previous_line_begin + point_offset, line_begin - 1].min
         true
       end
 
       def beginning_of_line(*)
         point = buffer.point
-        return true if point.zero?
-        return true if buffer[point - 1] == "\n"
+        return true if point == buffer.size
 
-        line_start = buffer.rindex("\n", point - 1)
-        buffer.point = line_start.nil? ? 0 : line_start + 1
+        line_start = buffer.rindex(/^/, point)
+        buffer.point = line_start <= point ? line_start : 0
         true
       end
 
