@@ -148,6 +148,15 @@ module Amun
         end
       end
 
+      # clear the globally bound events
+      # if you need to reset this class to
+      # its default state, this method
+      # should clear all events and its associated
+      # objects/methods
+      def clear
+        @instance = nil
+      end
+
       private
 
       def instance

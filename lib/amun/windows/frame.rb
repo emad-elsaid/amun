@@ -31,8 +31,6 @@ module Amun
       def render
         render_window(window)
         render_window(bottom_area)
-      rescue StandardError => error
-        handle_exception(error)
       end
 
       private
