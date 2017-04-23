@@ -43,6 +43,8 @@ RSpec.configure do |c|
       attron: true,
       attroff: true,
       refresh: true,
+      resize: true,
+      move: true,
       '<<' => true,
       'keypad=' => true,
       'timeout=' => true
