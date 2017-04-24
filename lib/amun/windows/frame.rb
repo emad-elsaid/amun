@@ -20,10 +20,11 @@ module Amun
         super(size)
         @window = BufferWindow.new(top_window_size)
         @echo_area = EchoArea.new(bottom_window_size)
+        bind(Curses::KEY_RESIZE, self, :set_size_to_terminal)
       end
 
       def trigger(event)
-        EventManager.join(event, echo_area, mini_buffer || window, EventManager)
+        EventManager.join(event, self.events, echo_area, mini_buffer || window, EventManager)
       rescue StandardError => error
         handle_exception(error)
       end
@@ -33,9 +34,14 @@ module Amun
         render_window(bottom_area)
       end
 
+      def set_size_to_terminal(*)
+        self.size = default_size
+      end
+
       private
 
       def resize
+        super
         window.size = top_window_size
         echo_area.size = bottom_window_size
       end
