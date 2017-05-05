@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/blazeeboy/amun.svg?branch=master)](https://travis-ci.org/blazeeboy/amun)
 [![Code Climate](https://codeclimate.com/github/blazeeboy/amun/badges/gpa.svg)](https://codeclimate.com/github/blazeeboy/amun)
 [![Test Coverage](https://codeclimate.com/github/blazeeboy/amun/badges/coverage.svg)](https://codeclimate.com/github/blazeeboy/amun)
+[![Inline docs](http://inch-ci.org/github/blazeeboy/amun.svg?branch=master)](http://inch-ci.org/github/blazeeboy/amun)
 
 A minimal CLI text editor, built on Ruby, looking for Emacs as it's father and idol.
 
