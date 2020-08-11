@@ -2,10 +2,10 @@
 
 ## "King of the gods and god of the wind"
 [![Gem Version](https://badge.fury.io/rb/amun.svg)](http://badge.fury.io/rb/amun)
-[![Build Status](https://travis-ci.org/blazeeboy/amun.svg?branch=master)](https://travis-ci.org/blazeeboy/amun)
-[![Code Climate](https://codeclimate.com/github/blazeeboy/amun/badges/gpa.svg)](https://codeclimate.com/github/blazeeboy/amun)
-[![Test Coverage](https://codeclimate.com/github/blazeeboy/amun/badges/coverage.svg)](https://codeclimate.com/github/blazeeboy/amun)
-[![Inline docs](http://inch-ci.org/github/blazeeboy/amun.svg?branch=master)](http://inch-ci.org/github/blazeeboy/amun)
+[![Build Status](https://travis-ci.org/emad-elsaid/amun.svg?branch=master)](https://travis-ci.org/emad-elsaid/amun)
+[![Code Climate](https://codeclimate.com/github/emad-elsaid/amun/badges/gpa.svg)](https://codeclimate.com/github/emad-elsaid/amun)
+[![Test Coverage](https://codeclimate.com/github/emad-elsaid/amun/badges/coverage.svg)](https://codeclimate.com/github/emad-elsaid/amun)
+[![Inline docs](http://inch-ci.org/github/emad-elsaid/amun.svg?branch=master)](http://inch-ci.org/github/emad-elsaid/amun)
 
 A minimal CLI text editor, built on Ruby, looking for Emacs as it's father and idol.
 
@@ -61,7 +61,7 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/blazeeboy/amun.
+Bug reports and pull requests are welcome on GitHub at https://github.com/emad-elsaid/amun.
 
 
 ## License
