@@ -265,6 +265,15 @@ describe Amun::Behaviours::Movement do
         expect(current_content).to eq status_after
       end
     end
+
+    context 'point in the end of last buffer line' do
+      let(:status_before) { "Lorem ipsum dolor sit amet,\nconsectetur[point]" }
+      let(:status_after) { "Lorem ipsum dolor sit amet,\n[point]consectetur" }
+
+      it 'does not move' do
+        expect(current_content).to eq status_after
+      end
+    end
   end
 
   describe '#end_of_line' do

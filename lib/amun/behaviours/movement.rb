@@ -63,7 +63,7 @@ module Amun
 
       def beginning_of_line(*)
         point = buffer.point
-        return true if point == buffer.size
+        return true if point == buffer.size && buffer[point-1] == "\n"
 
         line_start = buffer.rindex(/^/, point)
         buffer.point = line_start <= point ? line_start : 0
