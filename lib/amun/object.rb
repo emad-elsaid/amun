@@ -7,7 +7,7 @@ module Amun
   # this way you can have this object and switch
   # behavior and states by switching internal event manager
   # instances, for example you can have a mode that switch between
-  # normal and insert mode (ahem ahmed VIM style)
+  # normal and insert mode (ahem ahem VIM style)
   class Object
     extend Forwardable
 
