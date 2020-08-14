@@ -59,6 +59,14 @@ Classes that are responsible the following for a buffer object:
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
+### Tests
+
+guard file will run rspec tests whenever a relevant file changes
+
+```
+$ guard
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/emad-elsaid/amun.
