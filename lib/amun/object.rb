@@ -11,7 +11,7 @@ module Amun
   class Object
     extend Forwardable
 
-    attr_accessor :events
+    attr_reader :events
     def_delegators :events, :bind, :bind_all, :unbind, :unbind_all, :trigger
 
     def initialize

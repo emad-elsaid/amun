@@ -4,6 +4,7 @@ require 'forwardable'
 require 'amun/windows/frame'
 require 'amun/event_manager'
 require 'amun/features_loader'
+require 'amun/user_config'
 require 'amun/helpers/keyboard'
 
 module Amun
@@ -21,7 +22,8 @@ module Amun
     def run
       init_curses
       frame.render
-      FeaturesLoader.load
+      FeaturesLoader.call
+      UserConfig.call
       keyboard_thread.join
     end
 
