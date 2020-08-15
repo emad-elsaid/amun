@@ -71,6 +71,7 @@ module Amun
       # #register should be used for redefining a color pair values
       def register_default(name, foreground, background)
         return if registered? name
+
         register(name, foreground, background)
       end
 

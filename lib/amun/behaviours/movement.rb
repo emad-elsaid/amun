@@ -51,7 +51,11 @@ module Amun
       def previous_line(*)
         point = buffer.point
 
-        line_begin = point == buffer.size && buffer[point - 1] == "\n" ? point : buffer.rindex(/^/, point)
+        line_begin = if point == buffer.size && buffer[point - 1] == "\n"
+                       point
+                     else
+                       buffer.rindex(/^/, point)
+                     end
         return true if line_begin.zero?
 
         previous_line_begin = buffer.rindex(/^/, line_begin - 1)
@@ -63,7 +67,7 @@ module Amun
 
       def beginning_of_line(*)
         point = buffer.point
-        return true if point == buffer.size && buffer[point-1] == "\n"
+        return true if point == buffer.size && buffer[point - 1] == "\n"
 
         line_start = buffer.rindex(/^/, point)
         buffer.point = line_start <= point ? line_start : 0

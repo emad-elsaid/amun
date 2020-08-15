@@ -94,6 +94,7 @@ module Amun
 
       def exec_done_block(*)
         return unless @done_block
+
         @done_block.call(self)
       end
 

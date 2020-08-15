@@ -20,13 +20,13 @@ module Amun
         super(size)
         @window = BufferWindow.new(top_window_size)
         @echo_area = EchoArea.new(bottom_window_size)
-        bind(Curses::KEY_RESIZE, self, :set_size_to_terminal)
+        bind(Curses::KEY_RESIZE, self, :size_to_terminal)
       end
 
       def trigger(event)
-        EventManager.join(event, self.events, echo_area, mini_buffer || window, EventManager)
-      rescue StandardError => error
-        handle_exception(error)
+        EventManager.join(event, events, echo_area, mini_buffer || window, EventManager)
+      rescue StandardError => e
+        handle_exception(e)
       end
 
       def render
@@ -34,7 +34,7 @@ module Amun
         render_window(bottom_area)
       end
 
-      def set_size_to_terminal(*)
+      def size_to_terminal(*)
         self.size = default_size
       end
 
@@ -79,13 +79,13 @@ module Amun
 
       def render_window(window)
         window.render
-        mini_buffer.render if mini_buffer
-      rescue StandardError => error
-        handle_exception(error)
+        mini_buffer&.render
+      rescue StandardError => e
+        handle_exception(e)
       end
 
-      def handle_exception(e)
-        Buffer.messages << "#{e.message} (#{e.backtrace.first})\n"
+      def handle_exception(exp)
+        Buffer.messages << "#{exp.message} (#{exp.backtrace.first})\n"
       end
     end
   end

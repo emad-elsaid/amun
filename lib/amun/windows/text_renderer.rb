@@ -21,7 +21,7 @@ module Amun
         point = buffer.point
         curses_window << buffer[0...point]
         render_point(buffer)
-        curses_window << buffer[(point + 1)..-1]
+        curses_window << buffer[(point + 1)..]
       end
 
       def render_point(buffer)

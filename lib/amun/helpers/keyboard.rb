@@ -26,13 +26,9 @@ module Amun
         begin
           eval "?\\M-#{modified_character}"
         rescue SyntaxError
-          return "#{ch} #{modified_character}"
+          "#{ch} #{modified_character}"
         end
       end
-
-      private
-
-      module_function
 
       def modified_char
         Curses.stdscr.timeout = TIMEOUT

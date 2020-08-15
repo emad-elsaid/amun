@@ -1,4 +1,5 @@
 module Amun
+  # UserConfig will load ruby file localed in `~/.amun/init.rb`
   module UserConfig
     def self.call
       init_file = File.join(Dir.home, '.amun', 'init.rb')

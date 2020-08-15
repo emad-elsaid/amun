@@ -40,9 +40,7 @@ module Amun
     # method(Symbol):: a method name that should be executed when the event
     # is triggered
     def bind(event, object, method)
-      if !object.nil? && !object.respond_to?(method)
-        raise ArgumentError, "#{method} : is not a method for #{object}"
-      end
+      raise ArgumentError, "#{method} : is not a method for #{object}" if !object.nil? && !object.respond_to?(method)
 
       add_chain(event.to_s)
       @bindings[event.to_s].unshift(object: object, method: method)
@@ -95,6 +93,7 @@ module Amun
       return INTERRUPTED unless trigger_for_event(event, event) &&
                                 trigger_for_event("all", event)
       return CHAINED if chained?(event)
+
       CONTINUE
     end
 
@@ -181,8 +180,9 @@ module Amun
 
     def add_chain(event)
       return unless event.to_s.include?(' ')
+
       event.to_s.split(" ")[0...-1].inject("") do |chain, evt|
-        new_chain = (chain + " " + evt).strip
+        new_chain = "#{chain} #{evt}".strip
         @chains << new_chain
         new_chain
       end

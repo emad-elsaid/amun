@@ -13,6 +13,7 @@ module Amun
       extend Forwardable
 
       attr_reader :size
+
       def_delegators :size, :top, :left, :width, :height
 
       def initialize(size)

@@ -22,8 +22,8 @@ module Amun
         last_line = buffer.lines.last
         result = eval(last_line)
         buffer << "\n#{result}"
-      rescue StandardError, SyntaxError => error
-        buffer << "\n#{error.inspect}\n#{error.backtrace}"
+      rescue StandardError, SyntaxError => e
+        buffer << "\n#{e.inspect}\n#{e.backtrace}"
       ensure
         buffer.point = buffer.length
       end

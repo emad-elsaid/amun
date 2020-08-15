@@ -12,6 +12,7 @@ module Amun
     extend Forwardable
 
     attr_reader :events
+
     def_delegators :events, :bind, :bind_all, :unbind, :unbind_all, :trigger
 
     def initialize

@@ -1,5 +1,6 @@
 AllCops:
-  TargetRubyVersion: 2.0
+  TargetRubyVersion: 2.6
+  NewCops: enable
   Exclude:
     - 'spec/**/*'
     - '*.gemspec'
@@ -10,7 +11,13 @@ Style/StringLiterals:
   Enabled: false
 Style/WordArray:
   Enabled: false
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 Security/Eval:
+  Enabled: false
+Style/EvalWithLocation:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/MethodLength:
   Enabled: false

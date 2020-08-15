@@ -21,18 +21,20 @@ module Amun
       self.minor_modes = Set.new
     end
 
-    attr_writer :point
+    attr_writer :point, :mark
+
     def point
       return 0 if @point.negative?
       return length if @point > length
+
       @point
     end
 
-    attr_writer :mark
     def mark
       return nil if @mark.nil?
       return 0 if @mark.negative?
       return length if @mark > length
+
       @mark
     end
 
@@ -60,8 +62,8 @@ module Amun
       text.slice!(start, length)
     end
 
-    def <<(p1)
-      insert(length, p1)
+    def <<(str)
+      insert(length, str)
     end
 
     def clear
