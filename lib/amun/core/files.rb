@@ -7,8 +7,7 @@ def find_file(*)
     file_path = window.buffer.to_s
 
     file_buffer = Amun::Buffer.new(file_path, File.open(file_path, 'r+'))
-    Amun::Buffer.instances << file_buffer
-    set_current_buffer(file_buffer)
+    open_buffer(file_buffer)
   end.attach(Amun::Application.frame)
 
   true

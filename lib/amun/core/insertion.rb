@@ -1,5 +1,3 @@
-require_relative './variables'
-
 def insert_char(char)
   return true unless char.is_a? String
   return true unless char.length == 1

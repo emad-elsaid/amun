@@ -1,5 +1,3 @@
-require_relative './variables'
-
 def forward_char(*)
   current_buffer.point += 1
   true

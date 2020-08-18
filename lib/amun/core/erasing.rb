@@ -1,5 +1,3 @@
-require_relative './variables'
-
 def delete_char(*)
   current_buffer.slice!(buffer.point)
   true

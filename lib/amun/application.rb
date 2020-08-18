@@ -19,8 +19,8 @@ module Amun
 
     def run
       init_curses
-      frame.render
       load_core
+      frame.render
       set_current_buffer(frame.window.buffer)
 
       load_config
