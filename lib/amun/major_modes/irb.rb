@@ -1,39 +1,25 @@
 require 'amun/object'
 require 'amun/helpers/colors'
-require 'amun/behaviours/emacs'
+require 'amun/major_modes/fundamental'
 
 module Amun
   module MajorModes
     #  mode that executes the last line in
     # the current environment and print the output
-    class IRB < Object
-      include Behaviours::Emacs
-
-      def initialize(buffer)
+    class IRB < Fundamental
+      def initialize
         super()
-        self.buffer = buffer
-
-        emacs_behaviour_initialize
         bind "\n", self, :execute_last_line
-        read_io if buffer.empty?
       end
 
       def execute_last_line(*)
-        last_line = buffer.lines.last
+        last_line = current_buffer.lines.last
         result = eval(last_line)
-        buffer << "\n#{result}"
+        current_buffer << "\n#{result}"
       rescue StandardError, SyntaxError => e
-        buffer << "\n#{e.inspect}\n#{e.backtrace}"
+        current_buffer << "\n#{e.inspect}\n#{e.backtrace}"
       ensure
-        buffer.point = buffer.length
-      end
-
-      private
-
-      attr_accessor :buffer
-
-      def read_io
-        buffer << buffer.io.read
+        current_buffer.point = current_buffer.length
       end
     end
   end

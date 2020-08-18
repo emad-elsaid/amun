@@ -3,8 +3,6 @@ require 'singleton'
 require 'forwardable'
 require 'amun/windows/frame'
 require 'amun/event_manager'
-require 'amun/features_loader'
-require 'amun/user_config'
 require 'amun/helpers/keyboard'
 
 module Amun
@@ -22,8 +20,10 @@ module Amun
     def run
       init_curses
       frame.render
-      FeaturesLoader.call
-      UserConfig.call
+      load_core
+      set_current_buffer(frame.window.buffer)
+
+      load_config
       keyboard_thread.join
     end
 
@@ -43,6 +43,14 @@ module Amun
       Curses.start_color
       Curses.stdscr.keypad = true
       Curses.ESCDELAY = 0
+    end
+
+    def load_core
+      path = File.expand_path('core', __dir__)
+      files = Dir.glob(File.join(path, '**/*'))
+      files.each do |file|
+        require file
+      end
     end
 
     def keyboard_thread

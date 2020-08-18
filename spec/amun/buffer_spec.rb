@@ -92,7 +92,6 @@ describe Amun::Buffer do
   context 'Class instance' do
     subject { Amun::Buffer }
     its(:instances) { is_expected.to be_a Set }
-    its(:current) { is_expected.to be_a Amun::Buffer }
     its(:scratch) { is_expected.to be_a Amun::Buffer }
     its('scratch.name') { is_expected.to eq '*Scratch*' }
     its(:messages) { is_expected.to be_a Amun::Buffer }

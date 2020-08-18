@@ -16,8 +16,8 @@ module Amun
       self.io = io
       self.name = name
       self.point = 0
-      self.text = ''
-      self.major_mode = MajorModes::Fundamental.new(self)
+      self.text = io.read
+      self.major_mode = MajorModes::Fundamental.new
       self.minor_modes = Set.new
     end
 
@@ -75,14 +75,10 @@ module Amun
     end
 
     class << self
-      attr_writer :current, :instances
+      attr_writer :instances
 
       def instances
         @instances ||= Set.new
-      end
-
-      def current
-        @current ||= scratch
       end
 
       def scratch

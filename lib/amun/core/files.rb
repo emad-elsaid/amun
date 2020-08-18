@@ -8,7 +8,7 @@ def find_file(*)
 
     file_buffer = Amun::Buffer.new(file_path, File.open(file_path, 'r+'))
     Amun::Buffer.instances << file_buffer
-    Amun::Buffer.current = file_buffer
+    set_current_buffer(file_buffer)
   end.attach(Amun::Application.frame)
 
   true
@@ -20,7 +20,7 @@ unless ARGV.empty?
   ARGV.each do |file|
     file_buffer = Amun::Buffer.new(file, File.open(file, 'r+'))
     Amun::Buffer.instances << file_buffer
-    Amun::Buffer.current = file_buffer
+    set_current_buffer(file_buffer)
     Amun::Application.frame.render
   end
 end

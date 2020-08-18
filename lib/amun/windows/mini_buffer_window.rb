@@ -52,10 +52,12 @@ module Amun
         )
         @frame = frame
         @frame.mini_buffer = self
+        set_current_buffer(buffer)
       end
 
       # deatach the mini buffer from its frame
       def detach
+        set_current_buffer @frame.window.buffer
         @frame.mini_buffer = nil
         @frame = nil
       end

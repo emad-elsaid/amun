@@ -18,7 +18,7 @@ module Amun
 
       def initialize(size = default_size)
         super(size)
-        @window = BufferWindow.new(top_window_size)
+        @window = BufferWindow.new(top_window_size, Buffer.scratch)
         @echo_area = EchoArea.new(bottom_window_size)
         bind(Curses::KEY_RESIZE, self, :size_to_terminal)
       end

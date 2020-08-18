@@ -12,6 +12,7 @@ module Amun
     class BufferWindow < Base
       extend Forwardable
 
+      attr_accessor :buffer
       def_delegator :buffer, :trigger
 
       attr_accessor :mode_line
@@ -26,21 +27,6 @@ module Amun
       def render
         @text_renderer.render(buffer)
         @mode_line.render(buffer)
-      end
-
-      # set a specific buffer to be displayed in this window
-      def display_buffer(buffer)
-        @buffer = buffer
-      end
-
-      # render current buffer from the Buffer class
-      def display_current_buffer
-        @buffer = nil
-      end
-
-      # get current buffer that this window is rendering
-      def buffer
-        @buffer || Buffer.current
       end
 
       private

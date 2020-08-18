@@ -1,7 +1,5 @@
 require 'amun/windows/base'
 require 'amun/helpers/colors'
-require 'amun/mode_line_segments/major_mode'
-require 'amun/mode_line_segments/buffer_name'
 
 module Amun
   module Windows
@@ -15,8 +13,8 @@ module Amun
         super(size)
         @right_segments = []
         @left_segments = [
-          ModeLineSegments::BufferName.new,
-          ModeLineSegments::MajorMode.new
+          :mode_line_buffer_name,
+          :mode_line_major_mode_name,
         ]
 
         Helpers::Colors.register_default(:mode_line, 0, 255)
@@ -42,7 +40,7 @@ module Amun
 
       def render_segments(segments, buffer)
         segments.map do |segment|
-          segment.render(buffer)
+          send(segment, buffer)
         end.flatten
       end
     end

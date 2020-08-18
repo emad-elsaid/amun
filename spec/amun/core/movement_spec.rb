@@ -1,20 +1,19 @@
 require_relative '../../spec_helper'
 
-describe Amun::Behaviours::Movement do
-  subject { double(buffer: buffer) }
+describe 'amun/core/movement' do
   let(:buffer) { Amun::Buffer.new('') }
   let(:content) { status_before.gsub('[point]', '') }
   let(:point) { status_before.index('[point]') }
   let(:current_content) { buffer[0...buffer.point] + '[point]' + buffer[buffer.point..-1] }
 
   before do
+    set_current_buffer(buffer)
     buffer << content
     buffer.point = point
-    subject.extend Amun::Behaviours::Movement
   end
 
   describe '#backward_char' do
-    before { subject.backward_char }
+    before { backward_char }
 
     context 'point at first character of first line' do
       let(:status_before) { "[point]Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit." }
@@ -45,7 +44,7 @@ describe Amun::Behaviours::Movement do
   end
 
   describe '#forward_char' do
-    before { subject.forward_char }
+    before { forward_char }
 
     context 'point at first character' do
       let(:status_before) { "[point]Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit." }
@@ -76,7 +75,7 @@ describe Amun::Behaviours::Movement do
   end
 
   describe '#next_line' do
-    before { subject.next_line }
+    before { next_line }
 
     context 'point at beginning of the first line' do
       let(:status_before) { "[point]Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit." }
@@ -134,7 +133,7 @@ describe Amun::Behaviours::Movement do
   end
 
   describe '#previous_line' do
-    before { subject.previous_line }
+    before { previous_line }
 
     context 'point at beginning of the second line' do
       let(:status_before) { "Lorem ipsum dolor sit amet,\n[point]consectetur adipiscing elit." }
@@ -210,7 +209,7 @@ describe Amun::Behaviours::Movement do
   end
 
   describe '#beginning_of_line' do
-    before { subject.beginning_of_line }
+    before { beginning_of_line }
 
     context 'point in beginning of first line' do
       let(:status_before) { "[point]Lorem ipsum dolor sit amet,\nconsectetur\n" }
@@ -277,7 +276,7 @@ describe Amun::Behaviours::Movement do
   end
 
   describe '#end_of_line' do
-    before { subject.end_of_line }
+    before { end_of_line }
 
     context 'point in end of first line' do
       let(:status_before) { "Lorem ipsum dolor sit amet,[point]\nconsectetur\n" }
