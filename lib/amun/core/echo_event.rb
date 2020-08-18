@@ -1,6 +1,3 @@
-require 'amun/event_manager'
-require 'amun/buffer'
-
 def log(event)
   # log valid strings only no control characters
   event = event.encode!('UTF-8', 'UTF-8', invalid: :replace)

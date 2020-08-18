@@ -1,7 +1,3 @@
-require 'amun/event_manager'
-require 'amun/buffer'
-require 'amun/windows/mini_buffer_window'
-
 def find_file(*)
   Amun::Windows::MiniBufferWindow.new('Open file: ', Dir.pwd) do |window|
     file_path = window.buffer.to_s

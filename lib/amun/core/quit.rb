@@ -1,5 +1,3 @@
-require 'amun/event_manager'
-
 def kill_amun(*)
   exit 0
 end
