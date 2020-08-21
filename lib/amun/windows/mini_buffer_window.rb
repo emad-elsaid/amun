@@ -1,8 +1,3 @@
-require 'amun/windows/base'
-require 'amun/buffer'
-require 'amun/windows/text_renderer'
-require 'amun/primitives/rect'
-
 module Amun
   module Windows
     # a minibuffer that when attached will replace the frame

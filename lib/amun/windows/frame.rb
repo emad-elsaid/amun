@@ -1,10 +1,3 @@
-require 'curses'
-require 'amun/event_manager'
-require 'amun/buffer'
-require 'amun/windows/base'
-require 'amun/windows/buffer_window'
-require 'amun/windows/echo_area'
-
 module Amun
   module Windows
     # a Frame fills all the space in terminal

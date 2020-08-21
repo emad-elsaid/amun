@@ -1,7 +1,3 @@
-require 'amun/object'
-require 'amun/helpers/colors'
-
-
 module Amun
   module MajorModes
     # Basic mode with emacs defaults

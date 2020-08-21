@@ -1,6 +1,4 @@
-require 'amun/object'
 require 'forwardable'
-require 'curses'
 
 module Amun
   module Windows

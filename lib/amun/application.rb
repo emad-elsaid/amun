@@ -1,8 +1,5 @@
-require 'curses'
 require 'singleton'
 require 'forwardable'
-require 'amun/event_manager'
-require 'amun/helpers/keyboard'
 
 module Amun
   # singleton Amun application, it initialize curses,
@@ -18,8 +15,6 @@ module Amun
 
     def run
       init_curses
-      load_dir('core')
-      load_dir('windows')
 
       frame.render
       set_current_buffer(frame.window.buffer)
@@ -44,14 +39,6 @@ module Amun
       Curses.start_color
       Curses.stdscr.keypad = true
       Curses.ESCDELAY = 0
-    end
-
-    def load_dir(path)
-      path = File.expand_path(path, __dir__)
-      files = Dir.glob(File.join(path, '**/*'))
-      files.each do |file|
-        require file
-      end
     end
 
     def keyboard_thread

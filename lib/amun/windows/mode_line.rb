@@ -1,6 +1,3 @@
-require 'amun/windows/base'
-require 'amun/helpers/colors'
-
 module Amun
   module Windows
     # a line of small segments that display

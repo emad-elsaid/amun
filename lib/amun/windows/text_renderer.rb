@@ -1,5 +1,3 @@
-require 'amun/windows/base'
-
 module Amun
   module Windows
     # this class renders the buffer in a curses window

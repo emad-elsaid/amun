@@ -1,5 +1,3 @@
-require 'curses'
-
 module Amun
   module Helpers
     # a module to deal with the keyboard

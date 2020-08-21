@@ -1,7 +1,4 @@
 require 'set'
-require 'amun/object'
-require 'amun/event_manager'
-require 'amun/major_modes/fundamental'
 require 'forwardable'
 
 module Amun

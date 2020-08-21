@@ -1,4 +1,3 @@
-require 'amun/event_manager'
 require 'forwardable'
 
 module Amun

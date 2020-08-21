@@ -1,5 +1,3 @@
-require 'curses'
-
 module Amun
   module Helpers
     class ColorLimitExceeded < StandardError; end

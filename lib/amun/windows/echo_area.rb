@@ -1,6 +1,3 @@
-require 'amun/windows/base'
-require 'amun/buffer'
-
 module Amun
   module Windows
     # a line that is rendered by default at the end on the screen

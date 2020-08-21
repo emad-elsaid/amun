@@ -1,8 +1,3 @@
-require 'amun/buffer'
-require 'amun/windows/base'
-require 'amun/windows/text_renderer'
-require 'amun/windows/mode_line'
-require 'amun/primitives/rect'
 require 'forwardable'
 
 module Amun

@@ -1,7 +1,4 @@
-require 'amun/object'
-require 'amun/helpers/colors'
 require 'amun/major_modes/fundamental'
-
 module Amun
   module MajorModes
     #  mode that executes the last line in
