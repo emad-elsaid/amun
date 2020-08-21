@@ -13,6 +13,8 @@ Style/WordArray:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Naming/AccessorMethodName:
+  Enabled: false
 Style/GlobalVars:
   Enabled: false
 Layout/LineLength:
