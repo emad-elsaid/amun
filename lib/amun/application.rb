@@ -1,7 +1,6 @@
 require 'curses'
 require 'singleton'
 require 'forwardable'
-require 'amun/windows/frame'
 require 'amun/event_manager'
 require 'amun/helpers/keyboard'
 
@@ -19,7 +18,9 @@ module Amun
 
     def run
       init_curses
-      load_core
+      load_dir('core')
+      load_dir('windows')
+
       frame.render
       set_current_buffer(frame.window.buffer)
 
@@ -45,8 +46,8 @@ module Amun
       Curses.ESCDELAY = 0
     end
 
-    def load_core
-      path = File.expand_path('core', __dir__)
+    def load_dir(path)
+      path = File.expand_path(path, __dir__)
       files = Dir.glob(File.join(path, '**/*'))
       files.each do |file|
         require file
