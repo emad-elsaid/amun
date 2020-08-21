@@ -7,10 +7,9 @@ module Amun
     class BufferWindow < Base
       extend Forwardable
 
-      attr_accessor :buffer
-      def_delegator :buffer, :trigger
+      attr_accessor :buffer, :mode_line
 
-      attr_accessor :mode_line
+      def_delegator :buffer, :trigger
 
       def initialize(size, buffer = nil)
         super(size)

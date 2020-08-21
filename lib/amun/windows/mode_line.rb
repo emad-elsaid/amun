@@ -11,7 +11,7 @@ module Amun
         @right_segments = []
         @left_segments = [
           :mode_line_buffer_name,
-          :mode_line_major_mode_name,
+          :mode_line_major_mode_name
         ]
 
         Helpers::Colors.register_default(:mode_line, 0, 255)

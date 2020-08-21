@@ -11,6 +11,10 @@ Style/StringLiterals:
   Enabled: false
 Style/WordArray:
   Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/GlobalVars:
+  Enabled: false
 Layout/LineLength:
   Max: 120
 Security/Eval:
